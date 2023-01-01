@@ -1,0 +1,16 @@
+SACK:
+  LOAD: "&aLoaded <amount> sacks"
+COMMAND:
+  HELP:
+    ADMIN:
+      - "&a/LiteSack reload file - Reload files"
+      - "&a/LiteSack reload data - Reload sack data"
+      - "&a/LiteSack withdraw <sackID> <Item> <Amount> <Player> - Withdraw item to player"
+      - "&a/LiteSack sackID [set/add/remove] <sackID> <Player> <Amount> - Set sackID Storage"
+      - "&a/LiteSack item [set/add/remove] <sackID> <item> <Player> <Amount> - Set item Storage"
+    MEMBER:
+      - "&a/LiteSack withdraw <sackID> <Item> <Amount> - Withdraw item"
+  WITHDRAW:
+    MATERIAL_IS_NULL: "&cMaterial <name> is null"
+    NOT_ENOUGH: "&cMaterial <name> doesn't have enough <withdraw> to withdraw. It only have <amount>"
+    WITHDRAW_SUCCESS: "&aYou got <name> x<amount>!"
