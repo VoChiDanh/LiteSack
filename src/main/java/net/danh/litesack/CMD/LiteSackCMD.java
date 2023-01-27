@@ -32,7 +32,7 @@ public class LiteSackCMD extends CMDBase {
                     if (args[0].equalsIgnoreCase("withdraw")) {
                         if (SackData.getSackList().contains(args[1])) {
                             if (SackData.getItemList(args[1]).contains(args[2])) {
-                                PlayerData.removeSackData(p, args[1], args[2], args[3]);
+                                if (PlayerData.removeSackData(p, args[1], args[2], args[3])) return;
                             }
                         }
                     }

@@ -12,8 +12,51 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class PlayerData {
+
+    public static boolean canBreak(ItemStack itemStack) {
+        AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+        SackData.getSackList().forEach(sackID -> SackData.getItemList(sackID).forEach(item -> SackData.sItemFrom.get(sackID + "_" + item).forEach(from -> {
+            String[] fromData = from.split(";");
+            String fromType = fromData[0];
+            String fromMaterial = fromData[1];
+            if (fromType.equalsIgnoreCase("VANILLA")) {
+                Material material = Material.getMaterial(fromMaterial);
+                if (material != null) {
+                    if (itemStack.getType().equals(material)) {
+                        atomicBoolean.set(true);
+                    }
+                }
+            }
+        })));
+        return atomicBoolean.get();
+    }
+
+    public static int getRegenTime(ItemStack itemStack, SackType sackType) {
+        AtomicInteger added = new AtomicInteger(5);
+        SackData.getSackList().forEach(sackID -> SackData.getItemList(sackID).forEach(item -> SackData.sItemFrom.get(sackID + "_" + item).forEach(from -> {
+            String[] fromData = from.split(";");
+            String fromType = fromData[0];
+            String fromMaterial = fromData[1];
+            String regenTime = fromData[3];
+            if (sackType.equals(SackType.BLOCK_BREAK)) {
+                if (fromType.equalsIgnoreCase("VANILLA")) {
+                    Material material = Material.getMaterial(fromMaterial);
+                    if (material != null) {
+                        if (itemStack.getType().equals(material)) {
+                            if (regenTime != null) {
+                                added.set(Number.getInteger(regenTime));
+                            }
+                        }
+                    }
+                }
+            }
+        })));
+        return added.get();
+    }
+
     public static boolean addSackData(Player p, ItemStack itemStack, SackType sackType) {
         AtomicBoolean added = new AtomicBoolean(false);
         SackData.getSackList().forEach(sackID -> SackData.getItemList(sackID).forEach(item -> SackData.sItemFrom.get(sackID + "_" + item).forEach(from -> {
@@ -44,16 +87,14 @@ public class PlayerData {
                     }
                 }
                 if (materialFrom.equalsIgnoreCase("MMOITEMS")) {
-                    String[] mmoitems = materialType.split(":");
+                    String[] mmoitems = materialType.split("-");
                     String type = mmoitems[0];
                     String id = mmoitems[1];
                     MMOItem mmoitem = MMOItems.plugin.getMMOItem(MMOItems.plugin.getTypes().get(type), id);
                     if (mmoitem != null) {
                         ItemStack mmo = mmoitem.newBuilder().build();
                         if (mmo != null) {
-                            added.set(
-                                    PlayerData.increaseSackData(p, sackID, item, String.valueOf(mmo.getAmount()))
-                            );
+                            added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(mmo.getAmount())));
                         }
                     }
                 }
@@ -87,7 +128,7 @@ public class PlayerData {
                             }
                         }
                         if (item_type.equalsIgnoreCase("MMOITEMS")) {
-                            String[] mmoitems = item_data.split(":");
+                            String[] mmoitems = item_data.split("-");
                             String type = mmoitems[0];
                             String id = mmoitems[1];
                             MMOItem mmoitem = MMOItems.plugin.getMMOItem(MMOItems.plugin.getTypes().get(type), id);

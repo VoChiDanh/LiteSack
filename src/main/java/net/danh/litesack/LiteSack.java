@@ -1,6 +1,7 @@
 package net.danh.litesack;
 
 import net.danh.litesack.API.Data.Sack.SackData;
+import net.danh.litesack.API.Utils.CooldownManager;
 import net.danh.litesack.API.Utils.File;
 import net.danh.litesack.API.WorldGuard.LSWGuard;
 import net.danh.litesack.CMD.LiteSackCMD;
@@ -11,6 +12,8 @@ import net.danh.litesack.PlaceholderAPI.LSPapi;
 import net.xconfig.bukkit.XConfigBukkit;
 import net.xconfig.bukkit.model.SimpleConfigurationManager;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -51,11 +54,36 @@ public final class LiteSack extends JavaPlugin {
             new LSPapi().register();
         }
         Bukkit.getOnlinePlayers().forEach(SackData::loadPlayerData);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(liteStack, () -> {
+            if (!BlockBreak.locations.isEmpty()) {
+                for (int i = 0; i < BlockBreak.locations.size(); i++) {
+                    Location location = BlockBreak.locations.get(i);
+                    int times = Math.abs(CooldownManager.getCooldown(location));
+                    if (Math.abs(times) > 0) {
+                        CooldownManager.setCooldown(location, --times);
+                        if (Math.abs(times) == 0) {
+                            Material block_type = BlockBreak.blocks.get(location);
+                            location.getBlock().setType(block_type);
+                            BlockBreak.blocks.remove(location, block_type);
+                            BlockBreak.locations.remove(location);
+                        }
+                    } else {
+                        Material block_type = BlockBreak.blocks.get(location);
+                        location.getBlock().setType(block_type);
+                        BlockBreak.blocks.remove(location, block_type);
+                        BlockBreak.locations.remove(location);
+                    }
+                }
+            }
+        }, 20L, 20L);
     }
 
     @Override
     public void onDisable() {
         Bukkit.getOnlinePlayers().forEach(SackData::savePlayerData);
+        for (Location location : BlockBreak.locations) {
+            location.getBlock().setType(BlockBreak.blocks.get(location));
+        }
     }
 
     private void loadFiles(SimpleConfigurationManager bukkitConfigurationModel, Logger logger) {

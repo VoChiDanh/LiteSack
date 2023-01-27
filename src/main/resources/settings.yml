@@ -4,7 +4,7 @@ SETTINGS:
     ENABLE: true
     PREFIX: "&7[ &bLiteSack&7 ]"
 WORLD_GUARD: #Enable this, you will need set flag ls-mining to deny if you don't want player mine block ! (Default is allow)
-  USE_FLAG: false
+  USE_FLAG: true
 FORMAT:
   NUMBER:
     TYPE: true #TYPE LIST: true, false
