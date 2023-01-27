@@ -1,7 +1,6 @@
 package net.danh.litesack.API.WorldGuard;
 
 import net.danh.litesack.API.Utils.Chat;
-import net.danh.litesack.API.Utils.File;
 import net.danh.litesack.LiteSack;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -13,7 +12,6 @@ import org.codemc.worldguardwrapper.flag.IWrappedFlag;
 import org.codemc.worldguardwrapper.flag.WrappedState;
 
 import java.util.Optional;
-import java.util.logging.Level;
 
 public class LSWGuard {
 
@@ -42,7 +40,7 @@ public class LSWGuard {
 
     public static IWrappedFlag<WrappedState> getStateFlag(String flagName) {
         Optional<IWrappedFlag<WrappedState>> flagOptional = WorldGuardWrapper.getInstance().getFlag(flagName, WrappedState.class);
-        if (flagOptional.isEmpty()) {
+        if (!flagOptional.isPresent()) {
             Chat.debug(Bukkit.getConsoleSender(), "Failed to get WorldGuard state flag '" + flagName + "'.");
             Chat.debug(Bukkit.getConsoleSender(), "WorldGuard state flag '" + flagName + "' is not present!");
             return null;

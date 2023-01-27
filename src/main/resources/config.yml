@@ -32,6 +32,12 @@ SACK:
         FROM:
           - VANILLA;HAY_BALE;3
           - VANILLA;WHEAT;1
-      VANILLA;COCOA_BEAN:
+      VANILLA;BEETROOT:
         FROM:
-          - VANILLA;COCOA;1
+          - VANILLA;BEETROOTS;1
+      VANILLA;CARROT:
+        FROM:
+          - VANILLA;CARROTS;1
+      VANILLA;POTATO:
+        FROM:
+          - VANILLA;POTATOES;1

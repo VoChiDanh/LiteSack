@@ -25,7 +25,8 @@ public class LiteSackCMD extends CMDBase {
 
     @Override
     public void execute(CommandSender c, String[] args) {
-        if (c instanceof Player p) {
+        if (c instanceof Player) {
+            Player p = (Player) c;
             if (p.hasPermission("ls.withdraw")) {
                 if (args.length == 4) {
                     if (args[0].equalsIgnoreCase("withdraw")) {
@@ -157,7 +158,7 @@ public class LiteSackCMD extends CMDBase {
             if (args[0].equalsIgnoreCase("withdraw")) {
                 if (SackData.getSackList().contains(args[1])) {
                     if (SackData.getItemList(args[1]).contains(args[2])) {
-                        StringUtil.copyPartialMatches(args[3], List.of("<number>"), completions);
+                        StringUtil.copyPartialMatches(args[3], Collections.singletonList("<number>"), completions);
                     }
                 }
             }
@@ -183,8 +184,8 @@ public class LiteSackCMD extends CMDBase {
                 if (args[0].equalsIgnoreCase("sackID")) {
                     if (Arrays.asList("set", "add", "remove").contains(args[1])) {
                         if (SackData.getSackList().contains(args[2])) {
-                            if (Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).toList().contains(args[3])) {
-                                StringUtil.copyPartialMatches(args[4], List.of("<number>"), completions);
+                            if (Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList()).contains(args[3])) {
+                                StringUtil.copyPartialMatches(args[4], Collections.singletonList("<number>"), completions);
                             }
                         }
                     }
@@ -206,8 +207,8 @@ public class LiteSackCMD extends CMDBase {
                     if (Arrays.asList("set", "add", "remove").contains(args[1])) {
                         if (SackData.getSackList().contains(args[2])) {
                             if (SackData.getItemList(args[2]).contains(args[3])) {
-                                if (Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).toList().contains(args[4])) {
-                                    StringUtil.copyPartialMatches(args[5], List.of("<number>"), completions);
+                                if (Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList()).contains(args[4])) {
+                                    StringUtil.copyPartialMatches(args[5], Collections.singletonList("<number>"), completions);
                                 }
                             }
                         }

@@ -24,13 +24,13 @@ public class SackData {
         sStorage.clear();
         sItemFrom.clear();
         sItems.clear();
-        Objects.requireNonNull(File.getConfig().getConfigurationSection("SACK")).getKeys(false).stream().toList().forEach(sackID -> {
+        new ArrayList<>(Objects.requireNonNull(File.getConfig().getConfigurationSection("SACK")).getKeys(false)).forEach(sackID -> {
             String sackName = Chat.colorize(File.getConfig().getString("SACK." + sackID + ".DISPLAY"));
             sName.put(sackID, sackName);
             Integer sackStorage = File.getConfig().getInt("SACK." + sackID + ".DEFAULT_STORAGE");
             sStorage.put(sackID, sackStorage);
             List<String> sid = new ArrayList<>();
-            Objects.requireNonNull(File.getConfig().getConfigurationSection("SACK." + sackID + ".ITEM")).getKeys(false).stream().toList().forEach(sackItems -> {
+            new ArrayList<>(Objects.requireNonNull(File.getConfig().getConfigurationSection("SACK." + sackID + ".ITEM")).getKeys(false)).forEach(sackItems -> {
                 List<String> sackFrom = File.getConfig().getStringList("SACK." + sackID + ".ITEM." + sackItems + ".FROM");
                 sid.add(sackItems);
                 sItemFrom.put(sackID + "_" + sackItems, sackFrom);
@@ -41,15 +41,15 @@ public class SackData {
     }
 
     public static List<String> getSackList() {
-        return sItems.keySet().stream().toList();
+        return new ArrayList<>(sItems.keySet());
     }
 
     public static List<String> getItemList(String sackID) {
-        return sItems.get(sackID).stream().toList();
+        return new ArrayList<>(sItems.get(sackID));
     }
 
     public static void loadPlayerData(Player p) {
-        if (!LiteSack.getBukkitConfigurationModel().isCreated("PlayerData", p.getName() + ".yml")) {
+        if (!LiteSack.getBukkitConfigurationModel().exists("PlayerData", p.getName() + ".yml")) {
             LiteSack.getBukkitConfigurationModel().buildCustom("PlayerData", p.getName() + ".yml");
             FileConfiguration pData = LiteSack.getBukkitConfigurationModel().file("PlayerData", p.getName() + ".yml");
             getSackList().forEach(sackID -> {

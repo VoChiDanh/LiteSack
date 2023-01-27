@@ -12,6 +12,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+
 public class BlockBreak implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -19,9 +21,10 @@ public class BlockBreak implements Listener {
         Player p = e.getPlayer();
         Block block = e.getBlock();
         if (LSWGuard.handleForLocation(p, e.getBlock().getLocation(), e, LSWGuard.getStateFlag("ls-mining"))) {
-            if (block.getBlockData() instanceof Ageable ageable) {
+            if (block.getBlockData() instanceof Ageable) {
+                Ageable ageable = (Ageable) block.getBlockData();
                 if (ageable.getAge() == ageable.getMaximumAge()) {
-                    block.getDrops().stream().toList().forEach(itemStack -> {
+                    new ArrayList<>(block.getDrops()).forEach(itemStack -> {
                         if (PlayerData.addSackData(p, itemStack, SackType.BLOCK_BREAK)) {
                             e.setDropItems(false);
                             e.getBlock().getDrops().clear();

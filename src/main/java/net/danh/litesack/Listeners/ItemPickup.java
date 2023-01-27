@@ -11,7 +11,8 @@ public class ItemPickup implements Listener {
 
     @EventHandler
     public void onItemPickup(EntityPickupItemEvent e) {
-        if (e.getEntity() instanceof Player p) {
+        if (e.getEntity() instanceof Player) {
+            Player p = (Player) e.getEntity();
             if (PlayerData.addSackData(p, e.getItem().getItemStack(), SackType.ITEM_PICKUP)) {
                 e.setCancelled(true);
                 e.getItem().remove();

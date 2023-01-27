@@ -9,7 +9,7 @@ import net.danh.litesack.Listeners.ItemPickup;
 import net.danh.litesack.Listeners.JoinQuit;
 import net.danh.litesack.PlaceholderAPI.LSPapi;
 import net.xconfig.bukkit.XConfigBukkit;
-import net.xconfig.bukkit.config.BukkitConfigurationModel;
+import net.xconfig.bukkit.model.SimpleConfigurationManager;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,24 +17,25 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public final class LiteSack extends JavaPlugin {
 
     private static LiteSack liteStack;
-    private static BukkitConfigurationModel bukkitConfigurationModel;
+    private static SimpleConfigurationManager bukkitConfigurationModel;
 
     public static LiteSack getLiteStack() {
         return liteStack;
     }
 
-    public static BukkitConfigurationModel getBukkitConfigurationModel() {
+    public static SimpleConfigurationManager getBukkitConfigurationModel() {
         return bukkitConfigurationModel;
     }
 
     @Override
     public void onLoad() {
         liteStack = this;
-        bukkitConfigurationModel = XConfigBukkit.manager(liteStack);
+        bukkitConfigurationModel = XConfigBukkit.newConfigurationManager(liteStack);
         loadFiles(getBukkitConfigurationModel(), getLogger());
         if (File.getSetting().getBoolean("WORLD_GUARD.USE_FLAG")) {
             LSWGuard.register(liteStack);
@@ -57,12 +58,12 @@ public final class LiteSack extends JavaPlugin {
         Bukkit.getOnlinePlayers().forEach(SackData::savePlayerData);
     }
 
-    private void loadFiles(BukkitConfigurationModel bukkitConfigurationModel, Logger logger) {
+    private void loadFiles(SimpleConfigurationManager bukkitConfigurationModel, Logger logger) {
         bukkitConfigurationModel.build("", "config.yml", "settings.yml", "message.yml");
         logger.log(Level.INFO, "Loaded Files");
     }
 
     private void registerEvents(Listener... listeners) {
-        Arrays.stream(listeners).toList().forEach(events -> Bukkit.getPluginManager().registerEvents(events, liteStack));
+        Arrays.stream(listeners).collect(Collectors.toList()).forEach(events -> Bukkit.getPluginManager().registerEvents(events, liteStack));
     }
 }
