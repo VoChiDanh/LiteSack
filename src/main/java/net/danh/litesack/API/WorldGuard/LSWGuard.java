@@ -12,6 +12,7 @@ import org.codemc.worldguardwrapper.flag.IWrappedFlag;
 import org.codemc.worldguardwrapper.flag.WrappedState;
 
 import java.util.Optional;
+import java.util.logging.Level;
 
 public class LSWGuard {
 
@@ -19,17 +20,17 @@ public class LSWGuard {
         Plugin worldGuard = Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
         if (worldGuard != null) {
             WorldGuardWrapper wrapper = WorldGuardWrapper.getInstance();
-            Optional<IWrappedFlag<WrappedState>> miningFlag = wrapper.registerFlag("ls-mining", WrappedState.class, WrappedState.ALLOW);
+            Optional<IWrappedFlag<WrappedState>> miningFlag = wrapper.registerFlag("ls-mining", WrappedState.class, WrappedState.DENY);
+            miningFlag.ifPresent(wrappedStateIWrappedFlag -> plugin.getLogger().log(Level.INFO, "Registered flag " + wrappedStateIWrappedFlag.getName()));
         }
     }
 
     public static boolean handleForLocation(Player player, Location loc, Cancellable e, IWrappedFlag<WrappedState> flag) {
         if (flag == null) {
-            // Flag may have not been registered successfully, so ignore them.
             return true;
         }
 
-        WrappedState state = WorldGuardWrapper.getInstance().queryFlag(player, loc, flag).orElse(WrappedState.ALLOW);
+        WrappedState state = WorldGuardWrapper.getInstance().queryFlag(player, loc, flag).orElse(WrappedState.DENY);
         if (state == WrappedState.DENY) {
             e.setCancelled(true);
             Chat.debug(player, "Cancel Reason: WorldGuard");
