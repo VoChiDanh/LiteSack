@@ -3,9 +3,21 @@ version: '${project.version}'
 main: net.danh.litesack.LiteSack
 api-version: 1.14
 authors: [ VoChiDanh ]
+depend:
+  - MMOItems
+  - MythicLib
+  - WorldGuard
+  - PlaceholderAPI
 commands:
   LiteSack:
     description: Main Command
     aliases:
       - ls
       - lsack
+permissions:
+  ls.admin:
+    description: Admin permission
+    default: op
+  ls.withdraw:
+    description: Withdraw permission
+    default: true

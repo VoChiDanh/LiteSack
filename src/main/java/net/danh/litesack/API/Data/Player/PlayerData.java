@@ -1,5 +1,6 @@
 package net.danh.litesack.API.Data.Player;
 
+import io.lumine.mythic.lib.api.item.NBTItem;
 import net.Indyuce.mmoitems.MMOItems;
 import net.Indyuce.mmoitems.api.item.mmoitem.MMOItem;
 import net.danh.litesack.API.Data.Sack.SackData;
@@ -10,13 +11,49 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class PlayerData {
 
-    public static boolean canBreak(Material itemStack) {
+    public static HashMap<Player, Boolean> bypass = new HashMap<>();
+    public static boolean checkTool(Player p, String sackID, boolean bypass) {
+        AtomicBoolean atomic = new AtomicBoolean(false);
+        if (!bypass) {
+            ItemStack itemStack = p.getInventory().getItemInMainHand();
+            List<String> tools = File.getSetting().getStringList("TOOLS." + sackID.toUpperCase());
+            tools.forEach(tool -> {
+                String[] tool_split = tool.split(";");
+                if (tool_split[0].equalsIgnoreCase("MMOITEMS")) {
+                    NBTItem nbtItem = NBTItem.get(itemStack);
+                    if (nbtItem == null) {
+                        atomic.set(false);
+                        return;
+                    }
+                    if (!nbtItem.hasType()) {
+                        atomic.set(false);
+                        return;
+                    }
+                    if (nbtItem.getString("MMOITEMS_ITEM_ID") == null) {
+                        atomic.set(false);
+                        return;
+                    }
+                    String[] tool_2 = tool_split[1].split("-");
+                    if (nbtItem.getType().equalsIgnoreCase(tool_2[0])) {
+                        atomic.set(nbtItem.getString("MMOITEMS_ITEM_ID").equalsIgnoreCase(tool_2[1]));
+                    } else {
+                        atomic.set(false);
+                    }
+                }
+            });
+        }
+        return atomic.get();
+    }
+
+    public static boolean canBreak(Player p, Material itemStack) {
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
         SackData.getSackList().forEach(sackID -> SackData.getItemList(sackID).forEach(item -> SackData.sItemFrom.get(sackID + "_" + item).forEach(from -> {
             String[] fromData = from.split(";");
@@ -26,7 +63,7 @@ public class PlayerData {
                 Material material = Material.getMaterial(fromMaterial);
                 if (material != null) {
                     if (itemStack.equals(material)) {
-                        atomicBoolean.set(true);
+                        atomicBoolean.set(checkTool(p, sackID, false));
                     }
                 }
             }
@@ -69,7 +106,17 @@ public class PlayerData {
                     Material material = Material.getMaterial(fromMaterial);
                     if (material != null) {
                         if (itemStack.equals(material)) {
-                            added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(new ItemStack(itemStack).getAmount() * Number.getInteger(fromAmount))));
+                            ItemStack tool = new ItemStack(p.getInventory().getItemInMainHand());
+                            NBTItem nbtItem = NBTItem.get(tool);
+                            if (nbtItem != null
+                                    && nbtItem.getType() != null
+                                    && nbtItem.getString("MMOITEMS_ITEM_ID") != null
+                                    && nbtItem.getDouble("MMOITEMS_MULTI") > 0d) {
+                                int multi = (int) nbtItem.getDouble("MMOITEMS_MULTI");
+                                added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf((new ItemStack(itemStack).getAmount() * Number.getInteger(fromAmount)) + multi)));
+                            } else {
+                                added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(new ItemStack(itemStack).getAmount() * Number.getInteger(fromAmount))));
+                            }
                         }
                     }
                 }

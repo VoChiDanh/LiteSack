@@ -6,6 +6,7 @@ import net.danh.litesack.API.Data.Sack.SackData;
 import net.danh.litesack.API.Utils.Chat;
 import net.danh.litesack.API.Utils.File;
 import net.danh.litesack.API.Utils.Number;
+import net.xconfig.bukkit.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
@@ -38,6 +39,28 @@ public class LiteSackCMD extends CMDBase {
                     }
                 }
             }
+            if (p.hasPermission("ls.admin")) {
+                if (args.length == 1) {
+                    if (args[0].equalsIgnoreCase("bypass")) {
+                        if (!PlayerData.bypass.containsKey(p)) {
+                            PlayerData.bypass.put(p, true);
+                            p.sendMessage(TextUtils.colorize("&cBypass complete!"));
+                            return;
+                        } else {
+                            if (!PlayerData.bypass.get(p)) {
+                                PlayerData.bypass.put(p, true);
+                                p.sendMessage(TextUtils.colorize("&cBypass complete!"));
+                                return;
+                            }
+                            if (PlayerData.bypass.get(p)) {
+                                PlayerData.bypass.put(p, false);
+                                p.sendMessage(TextUtils.colorize("&cun-bypass complete!"));
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
         }
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("help")) {
@@ -55,15 +78,15 @@ public class LiteSackCMD extends CMDBase {
                         Integer amount = Number.getInteger(args[4]);
                         if (args[1].equalsIgnoreCase("set")) {
                             SackData.setStorageSack(p, args[2], amount);
-                            Chat.debug(c, "&c sackID =" + args[2] + ", Player = " + args[3] + ", Action = " + args[1] + ", Amount = " + args[4]);
+                            Chat.debug(c, "&c sackID = " + args[2] + ", Player = " + args[3] + ", Action = " + args[1] + ", Amount = " + args[4]);
                         }
                         if (args[1].equalsIgnoreCase("add")) {
                             SackData.addStorageSack(p, args[2], amount);
-                            Chat.debug(c, "&c sackID =" + args[2] + ", Player = " + args[3] + ", Action = " + args[1] + ", Amount = " + args[4]);
+                            Chat.debug(c, "&c sackID = " + args[2] + ", Player = " + args[3] + ", Action = " + args[1] + ", Amount = " + args[4]);
                         }
                         if (args[1].equalsIgnoreCase("remove")) {
                             SackData.removeStorageSack(p, args[2], amount);
-                            Chat.debug(c, "&c sackID =" + args[2] + ", Player = " + args[3] + ", Action = " + args[1] + ", Amount = " + args[4]);
+                            Chat.debug(c, "&c sackID = " + args[2] + ", Player = " + args[3] + ", Action = " + args[1] + ", Amount = " + args[4]);
                         }
                     }
                 }
@@ -75,15 +98,15 @@ public class LiteSackCMD extends CMDBase {
                         Integer amount = Number.getInteger(args[5]);
                         if (args[1].equalsIgnoreCase("set")) {
                             SackData.setSackItem(p, args[2], args[3], amount);
-                            Chat.debug(c, "&c sackID =" + args[2] + ", item = " + args[3] + ", Player = " + args[4] + ", Action = " + args[1] + ", Amount = " + args[5]);
+                            Chat.debug(c, "&c sackID = " + args[2] + ", item = " + args[3] + ", Player = " + args[4] + ", Action = " + args[1] + ", Amount = " + args[5]);
                         }
                         if (args[1].equalsIgnoreCase("add")) {
                             SackData.addSackItem(p, args[2], args[3], amount);
-                            Chat.debug(c, "&c sackID =" + args[2] + ", item = " + args[3] + ", Player = " + args[4] + ", Action = " + args[1] + ", Amount = " + args[5]);
+                            Chat.debug(c, "&c sackID = " + args[2] + ", item = " + args[3] + ", Player = " + args[4] + ", Action = " + args[1] + ", Amount = " + args[5]);
                         }
                         if (args[1].equalsIgnoreCase("remove")) {
                             SackData.removeSackItem(p, args[2], args[3], amount);
-                            Chat.debug(c, "&c sackID =" + args[2] + ", item = " + args[3] + ", Player = " + args[4] + ", Action = " + args[1] + ", Amount = " + args[5]);
+                            Chat.debug(c, "&c sackID = " + args[2] + ", item = " + args[3] + ", Player = " + args[4] + ", Action = " + args[1] + ", Amount = " + args[5]);
                         }
                     }
                 }
@@ -122,6 +145,7 @@ public class LiteSackCMD extends CMDBase {
                 commands.add("reload");
                 commands.add("sackID");
                 commands.add("item");
+                commands.add("bypass");
             }
             commands.add("help");
             commands.add("withdraw");

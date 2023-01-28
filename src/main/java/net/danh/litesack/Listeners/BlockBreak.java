@@ -29,15 +29,16 @@ public class BlockBreak implements Listener {
         Block block = e.getBlock();
         Location location = block.getLocation();
         if (LSWGuard.handleForLocation(p, e.getBlock().getLocation(), e, LSWGuard.getStateFlag("ls-mining"))) {
-            if (p.hasPermission("ls.admin")) return;
+            if (PlayerData.bypass.containsKey(p) && PlayerData.bypass.get(p)) return;
             if (block.getBlockData() instanceof Ageable) {
                 Ageable ageable = (Ageable) block.getBlockData();
                 if (ageable.getAge() == ageable.getMaximumAge()) {
+                    if (!PlayerData.canBreak(p, block.getType())) {
+                        e.setCancelled(true);
+                        return;
+                    }
                     if (PlayerData.addSackData(p, block.getType(), SackType.BLOCK_BREAK)) {
-                        if (!PlayerData.canBreak(block.getType())) {
-                            e.setCancelled(true);
-                            return;
-                        }
+                        e.setCancelled(true);
                         e.setDropItems(false);
                         block.getDrops().clear();
                         locations.add(location);
@@ -47,17 +48,18 @@ public class BlockBreak implements Listener {
                     }
                 }
             } else {
-                if (PlayerData.addSackData(p, block.getType(), SackType.BLOCK_BREAK)) {
-                    if (PlayerData.canBreak(block.getType())) {
+                if (PlayerData.canBreak(p, block.getType())) {
+                    if (PlayerData.addSackData(p, block.getType(), SackType.BLOCK_BREAK)) {
+                        e.setCancelled(true);
                         e.setDropItems(false);
                         block.getDrops().clear();
                         locations.add(location);
                         blocks.put(location, block.getType());
                         block.setType(Material.BEDROCK);
                         CooldownManager.setCooldown(location, PlayerData.getRegenTime(block.getType(), SackType.BLOCK_BREAK));
-                    } else {
-                        e.setCancelled(true);
                     }
+                } else {
+                    e.setCancelled(true);
                 }
             }
         }

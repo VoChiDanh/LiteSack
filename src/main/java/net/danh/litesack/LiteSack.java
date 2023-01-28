@@ -1,5 +1,7 @@
 package net.danh.litesack;
 
+import net.Indyuce.mmoitems.MMOItems;
+import net.Indyuce.mmoitems.api.item.mmoitem.MMOItem;
 import net.danh.litesack.API.Data.Sack.SackData;
 import net.danh.litesack.API.Utils.CooldownManager;
 import net.danh.litesack.API.Utils.File;
@@ -9,6 +11,7 @@ import net.danh.litesack.Listeners.BlockBreak;
 import net.danh.litesack.Listeners.ItemPickup;
 import net.danh.litesack.Listeners.JoinQuit;
 import net.danh.litesack.PlaceholderAPI.LSPapi;
+import net.danh.litesack.Stats.Multi;
 import net.xconfig.bukkit.XConfigBukkit;
 import net.xconfig.bukkit.model.SimpleConfigurationManager;
 import org.bukkit.Bukkit;
@@ -43,6 +46,7 @@ public final class LiteSack extends JavaPlugin {
         if (File.getSetting().getBoolean("WORLD_GUARD.USE_FLAG")) {
             LSWGuard.register(liteStack);
         }
+        MMOItems.plugin.getStats().register(new Multi());
     }
 
     @Override

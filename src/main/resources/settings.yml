@@ -8,3 +8,8 @@ WORLD_GUARD: #Enable this, you will need set flag ls-mining to deny if you don't
 FORMAT:
   NUMBER:
     TYPE: true #TYPE LIST: true, false
+TOOLS:
+  MINING:
+    - MMOITEMS;TOOL-CUPKHOIDAU
+  FARMING:
+    - MMOITEMS;TOOL-CUOCKHOIDAU
