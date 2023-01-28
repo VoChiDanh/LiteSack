@@ -18,10 +18,15 @@ public class File {
         return LiteSack.getBukkitConfigurationModel().file("", "message.yml");
     }
 
+    public static FileConfiguration getMainGUI() {
+        return LiteSack.getBukkitConfigurationModel().file("GUI", "MainGUI.yml");
+    }
+
     public static void reloadFiles(CommandSender c) {
         LiteSack.getBukkitConfigurationModel().reload("", "settings.yml");
         LiteSack.getBukkitConfigurationModel().reload("", "config.yml");
         LiteSack.getBukkitConfigurationModel().reload("", "message.yml");
+        LiteSack.getBukkitConfigurationModel().reload("GUI", "MainGUI.yml");
         Chat.sendCommandSenderMessage(c, "&aReloaded");
     }
 }

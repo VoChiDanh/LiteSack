@@ -6,6 +6,7 @@ import net.danh.litesack.API.Data.Sack.SackData;
 import net.danh.litesack.API.Utils.Chat;
 import net.danh.litesack.API.Utils.File;
 import net.danh.litesack.API.Utils.Number;
+import net.danh.litesack.Inventory.MainGUI;
 import net.xconfig.bukkit.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -28,6 +29,10 @@ public class LiteSackCMD extends CMDBase {
     public void execute(CommandSender c, String[] args) {
         if (c instanceof Player) {
             Player p = (Player) c;
+            if (args.length == 0) {
+                new MainGUI().openInventory(p);
+                return;
+            }
             if (p.hasPermission("ls.withdraw")) {
                 if (args.length == 4) {
                     if (args[0].equalsIgnoreCase("withdraw")) {

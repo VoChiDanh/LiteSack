@@ -6,6 +6,7 @@ import net.danh.litesack.API.Utils.CooldownManager;
 import net.danh.litesack.API.Utils.File;
 import net.danh.litesack.API.WorldGuard.LSWGuard;
 import net.danh.litesack.CMD.LiteSackCMD;
+import net.danh.litesack.Inventory.MainGUI;
 import net.danh.litesack.Listeners.BlockBreak;
 import net.danh.litesack.Listeners.ItemPickup;
 import net.danh.litesack.Listeners.JoinQuit;
@@ -13,6 +14,7 @@ import net.danh.litesack.PlaceholderAPI.LSPapi;
 import net.danh.litesack.Stats.Multi;
 import net.xconfig.bukkit.XConfigBukkit;
 import net.xconfig.bukkit.model.SimpleConfigurationManager;
+import org.browsit.milkgui.MilkGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -57,6 +59,8 @@ public final class LiteSack extends JavaPlugin {
             new LSPapi().register();
         }
         SackData.loadPlayers();
+        MilkGUI.INSTANCE.register(liteStack);
+        new MainGUI().register();
         Bukkit.getScheduler().scheduleSyncRepeatingTask(liteStack, () -> {
             if (!BlockBreak.locations.isEmpty()) {
                 for (int i = 0; i < BlockBreak.locations.size(); i++) {
@@ -83,6 +87,7 @@ public final class LiteSack extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        saveFiles(getBukkitConfigurationModel(), getLogger());
         Bukkit.getOnlinePlayers().forEach(SackData::savePlayerData);
         for (Location location : BlockBreak.locations) {
             location.getBlock().setType(BlockBreak.blocks.get(location));
@@ -91,6 +96,15 @@ public final class LiteSack extends JavaPlugin {
 
     private void loadFiles(SimpleConfigurationManager bukkitConfigurationModel, Logger logger) {
         bukkitConfigurationModel.build("", "config.yml", "settings.yml", "message.yml");
+        LiteSack.getBukkitConfigurationModel().build("GUI", "MainGUI.yml");
+        logger.log(Level.INFO, "Loaded Files");
+    }
+
+    private void saveFiles(SimpleConfigurationManager bukkitConfigurationModel, Logger logger) {
+        bukkitConfigurationModel.save("", "config.yml");
+        bukkitConfigurationModel.save("", "settings.yml");
+        bukkitConfigurationModel.save("", "message.yml");
+        LiteSack.getBukkitConfigurationModel().save("GUI", "MainGUI.yml");
         logger.log(Level.INFO, "Loaded Files");
     }
 

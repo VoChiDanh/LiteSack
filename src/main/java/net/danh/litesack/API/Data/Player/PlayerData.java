@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -147,6 +148,14 @@ public class PlayerData {
         return added.get();
     }
 
+    public static int getAmount(Player p, String item, String number) {
+        try {
+            return BigDecimal.valueOf(Long.parseLong(number)).intValue();
+        } catch (NumberFormatException | NullPointerException e) {
+            return SackData.pSackData.get(p.getName() + "_" + item);
+        }
+    }
+
     public static boolean removeSackData(Player p, String sackID, String item, String amount) {
         AtomicBoolean removed = new AtomicBoolean(false);
         SackData.getSackList().forEach(sID -> {
@@ -223,5 +232,4 @@ public class PlayerData {
     public static void setSackStorageData(Player p, String sackID, String amount) {
         SackData.pSackData.replace(p.getName() + "_" + sackID, Number.getInteger(amount));
     }
-
 }
