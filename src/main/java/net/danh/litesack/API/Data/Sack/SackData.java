@@ -7,10 +7,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 public class SackData {
     public static HashMap<String, String> sName = new HashMap<>();
@@ -48,6 +47,24 @@ public class SackData {
         return new ArrayList<>(sItems.get(sackID));
     }
 
+    public static List<String> getPlayerList() {
+        java.io.File folder = new java.io.File(LiteSack.getLiteStack().getDataFolder(), "/PlayerData");
+        java.io.File[] listOfFiles = folder.listFiles();
+        if (listOfFiles != null) {
+            List<java.io.File> files = Arrays.stream(listOfFiles).collect(Collectors.toList());
+            return files.stream().map(java.io.File::getName).collect(Collectors.toList());
+        }
+        return null;
+    }
+
+    public static void loadPlayers() {
+        List<String> players = getPlayerList();
+        if (players != null) {
+            players.forEach(player -> LiteSack.getBukkitConfigurationModel().buildCustom("PlayerData", player));
+            LiteSack.getLiteStack().getLogger().log(Level.INFO, "Loaded " + players.size() + " PlayerData");
+        }
+    }
+
     public static void loadPlayerData(Player p) {
         if (!LiteSack.getBukkitConfigurationModel().exists("PlayerData", p.getName() + ".yml")) {
             LiteSack.getBukkitConfigurationModel().buildCustom("PlayerData", p.getName() + ".yml");
@@ -61,7 +78,9 @@ public class SackData {
         FileConfiguration pData = LiteSack.getBukkitConfigurationModel().file("PlayerData", p.getName() + ".yml");
         Objects.requireNonNull(pData.getConfigurationSection("SACK")).getKeys(false).forEach(sackID -> {
             pSackData.put(p.getName() + "_" + sackID, pData.getInt("SACK." + sackID + ".STORAGE"));
-            Objects.requireNonNull(pData.getConfigurationSection("SACK." + sackID + ".ITEM")).getKeys(false).forEach(item -> pSackData.put(p.getName() + "_" + item, pData.getInt("SACK." + sackID + ".ITEM." + item)));
+            Objects.requireNonNull(pData.getConfigurationSection("SACK." + sackID + ".ITEM")).getKeys(false)
+                    .forEach(item ->
+                            pSackData.put(p.getName() + "_" + item, pData.getInt("SACK." + sackID + ".ITEM." + item)));
         });
     }
 

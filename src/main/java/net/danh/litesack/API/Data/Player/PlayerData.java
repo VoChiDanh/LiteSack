@@ -20,6 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class PlayerData {
 
     public static HashMap<Player, Boolean> bypass = new HashMap<>();
+
     public static boolean checkTool(Player p, String sackID, boolean bypass) {
         AtomicBoolean atomic = new AtomicBoolean(false);
         if (!bypass) {
@@ -108,10 +109,7 @@ public class PlayerData {
                         if (itemStack.equals(material)) {
                             ItemStack tool = new ItemStack(p.getInventory().getItemInMainHand());
                             NBTItem nbtItem = NBTItem.get(tool);
-                            if (nbtItem != null
-                                    && nbtItem.getType() != null
-                                    && nbtItem.getString("MMOITEMS_ITEM_ID") != null
-                                    && nbtItem.getDouble("MMOITEMS_MULTI") > 0d) {
+                            if (nbtItem != null && nbtItem.getType() != null && nbtItem.getString("MMOITEMS_ITEM_ID") != null && nbtItem.getDouble("MMOITEMS_MULTI") > 0d) {
                                 int multi = (int) nbtItem.getDouble("MMOITEMS_MULTI");
                                 added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf((new ItemStack(itemStack).getAmount() * Number.getInteger(fromAmount)) + multi)));
                             } else {
@@ -122,7 +120,7 @@ public class PlayerData {
                 }
             }
             if (sackType.equals(SackType.ITEM_PICKUP)) {
-                String[] material_drop = item.split(";");
+                String[] material_drop = from.split(";");
                 String materialFrom = material_drop[0];
                 String materialType = material_drop[1];
                 if (materialFrom.equalsIgnoreCase("VANILLA")) {
@@ -137,11 +135,10 @@ public class PlayerData {
                     String[] mmoitems = materialType.split("-");
                     String type = mmoitems[0];
                     String id = mmoitems[1];
-                    MMOItem mmoitem = MMOItems.plugin.getMMOItem(MMOItems.plugin.getTypes().get(type), id);
-                    if (mmoitem != null) {
-                        ItemStack mmo = mmoitem.newBuilder().build();
-                        if (mmo != null) {
-                            added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(mmo.getAmount())));
+                    NBTItem nbtItem = NBTItem.get(new ItemStack(itemStack));
+                    if (nbtItem != null && nbtItem.getType() != null && nbtItem.getString("MMOITEMS_ITEM_ID") != null) {
+                        if (nbtItem.getType().equalsIgnoreCase(type) && nbtItem.getString("MMOITEMS_ITEM_ID").equalsIgnoreCase(id)) {
+                            added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(new ItemStack(itemStack).getAmount())));
                         }
                     }
                 }

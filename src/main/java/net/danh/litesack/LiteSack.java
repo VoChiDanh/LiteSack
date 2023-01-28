@@ -1,7 +1,6 @@
 package net.danh.litesack;
 
 import net.Indyuce.mmoitems.MMOItems;
-import net.Indyuce.mmoitems.api.item.mmoitem.MMOItem;
 import net.danh.litesack.API.Data.Sack.SackData;
 import net.danh.litesack.API.Utils.CooldownManager;
 import net.danh.litesack.API.Utils.File;
@@ -57,7 +56,7 @@ public final class LiteSack extends JavaPlugin {
         if (Bukkit.getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new LSPapi().register();
         }
-        Bukkit.getOnlinePlayers().forEach(SackData::loadPlayerData);
+        SackData.loadPlayers();
         Bukkit.getScheduler().scheduleSyncRepeatingTask(liteStack, () -> {
             if (!BlockBreak.locations.isEmpty()) {
                 for (int i = 0; i < BlockBreak.locations.size(); i++) {
