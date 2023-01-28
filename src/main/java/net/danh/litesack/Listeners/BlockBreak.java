@@ -13,7 +13,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,35 +29,35 @@ public class BlockBreak implements Listener {
         Block block = e.getBlock();
         Location location = block.getLocation();
         if (LSWGuard.handleForLocation(p, e.getBlock().getLocation(), e, LSWGuard.getStateFlag("ls-mining"))) {
+            if (p.hasPermission("ls.admin")) return;
             if (block.getBlockData() instanceof Ageable) {
                 Ageable ageable = (Ageable) block.getBlockData();
                 if (ageable.getAge() == ageable.getMaximumAge()) {
-                    new ArrayList<>(block.getDrops()).forEach(itemStack -> {
-                        if (PlayerData.addSackData(p, itemStack, SackType.BLOCK_BREAK)) {
-                            if (!PlayerData.canBreak(itemStack)) {
-                                e.setCancelled(true);
-                                return;
-                            }
-                            e.setDropItems(false);
-                            block.getDrops().clear();
-                            locations.add(location);
-                            blocks.put(location, block.getType());
-                            CooldownManager.setCooldown(location, PlayerData.getRegenTime(itemStack, SackType.BLOCK_BREAK));
+                    if (PlayerData.addSackData(p, block.getType(), SackType.BLOCK_BREAK)) {
+                        if (!PlayerData.canBreak(block.getType())) {
+                            e.setCancelled(true);
+                            return;
                         }
-                    });
-                    return;
+                        e.setDropItems(false);
+                        block.getDrops().clear();
+                        locations.add(location);
+                        blocks.put(location, block.getType());
+                        block.setType(Material.AIR);
+                        CooldownManager.setCooldown(location, PlayerData.getRegenTime(block.getType(), SackType.BLOCK_BREAK));
+                    }
                 }
-                return;
-            }
-            if (PlayerData.addSackData(p, new ItemStack(block.getType()), SackType.BLOCK_BREAK)) {
-                if (PlayerData.canBreak(new ItemStack(block.getType()))) {
-                    e.setDropItems(false);
-                    block.getDrops().clear();
-                    locations.add(location);
-                    blocks.put(location, block.getType());
-                    CooldownManager.setCooldown(location, PlayerData.getRegenTime(new ItemStack(block.getType()), SackType.BLOCK_BREAK));
-                } else {
-                    e.setCancelled(true);
+            } else {
+                if (PlayerData.addSackData(p, block.getType(), SackType.BLOCK_BREAK)) {
+                    if (PlayerData.canBreak(block.getType())) {
+                        e.setDropItems(false);
+                        block.getDrops().clear();
+                        locations.add(location);
+                        blocks.put(location, block.getType());
+                        block.setType(Material.BEDROCK);
+                        CooldownManager.setCooldown(location, PlayerData.getRegenTime(block.getType(), SackType.BLOCK_BREAK));
+                    } else {
+                        e.setCancelled(true);
+                    }
                 }
             }
         }

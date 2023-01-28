@@ -31,12 +31,7 @@ public class LSWGuard {
         }
 
         WrappedState state = WorldGuardWrapper.getInstance().queryFlag(player, loc, flag).orElse(WrappedState.DENY);
-        if (state == WrappedState.DENY) {
-            e.setCancelled(true);
-            Chat.debug(player, "Cancel Reason: WorldGuard");
-            return false;
-        }
-        return true;
+        return state != WrappedState.DENY;
     }
 
     public static IWrappedFlag<WrappedState> getStateFlag(String flagName) {

@@ -58,7 +58,7 @@ public final class LiteSack extends JavaPlugin {
             if (!BlockBreak.locations.isEmpty()) {
                 for (int i = 0; i < BlockBreak.locations.size(); i++) {
                     Location location = BlockBreak.locations.get(i);
-                    int times = Math.abs(CooldownManager.getCooldown(location));
+                    int times = CooldownManager.getCooldown(location);
                     if (Math.abs(times) > 0) {
                         CooldownManager.setCooldown(location, --times);
                         if (Math.abs(times) == 0) {

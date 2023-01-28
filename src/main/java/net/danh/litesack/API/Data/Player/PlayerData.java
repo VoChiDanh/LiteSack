@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class PlayerData {
 
-    public static boolean canBreak(ItemStack itemStack) {
+    public static boolean canBreak(Material itemStack) {
         AtomicBoolean atomicBoolean = new AtomicBoolean(false);
         SackData.getSackList().forEach(sackID -> SackData.getItemList(sackID).forEach(item -> SackData.sItemFrom.get(sackID + "_" + item).forEach(from -> {
             String[] fromData = from.split(";");
@@ -25,7 +25,7 @@ public class PlayerData {
             if (fromType.equalsIgnoreCase("VANILLA")) {
                 Material material = Material.getMaterial(fromMaterial);
                 if (material != null) {
-                    if (itemStack.getType().equals(material)) {
+                    if (itemStack.equals(material)) {
                         atomicBoolean.set(true);
                     }
                 }
@@ -34,7 +34,7 @@ public class PlayerData {
         return atomicBoolean.get();
     }
 
-    public static int getRegenTime(ItemStack itemStack, SackType sackType) {
+    public static int getRegenTime(Material itemStack, SackType sackType) {
         AtomicInteger added = new AtomicInteger(5);
         SackData.getSackList().forEach(sackID -> SackData.getItemList(sackID).forEach(item -> SackData.sItemFrom.get(sackID + "_" + item).forEach(from -> {
             String[] fromData = from.split(";");
@@ -45,7 +45,7 @@ public class PlayerData {
                 if (fromType.equalsIgnoreCase("VANILLA")) {
                     Material material = Material.getMaterial(fromMaterial);
                     if (material != null) {
-                        if (itemStack.getType().equals(material)) {
+                        if (itemStack.equals(material)) {
                             if (regenTime != null) {
                                 added.set(Number.getInteger(regenTime));
                             }
@@ -57,7 +57,7 @@ public class PlayerData {
         return added.get();
     }
 
-    public static boolean addSackData(Player p, ItemStack itemStack, SackType sackType) {
+    public static boolean addSackData(Player p, Material itemStack, SackType sackType) {
         AtomicBoolean added = new AtomicBoolean(false);
         SackData.getSackList().forEach(sackID -> SackData.getItemList(sackID).forEach(item -> SackData.sItemFrom.get(sackID + "_" + item).forEach(from -> {
             String[] fromData = from.split(";");
@@ -68,8 +68,8 @@ public class PlayerData {
                 if (fromType.equalsIgnoreCase("VANILLA")) {
                     Material material = Material.getMaterial(fromMaterial);
                     if (material != null) {
-                        if (itemStack.getType().equals(material)) {
-                            added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(itemStack.getAmount() * Number.getInteger(fromAmount))));
+                        if (itemStack.equals(material)) {
+                            added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(new ItemStack(itemStack).getAmount() * Number.getInteger(fromAmount))));
                         }
                     }
                 }
@@ -81,8 +81,8 @@ public class PlayerData {
                 if (materialFrom.equalsIgnoreCase("VANILLA")) {
                     Material material = Material.getMaterial(materialType.toUpperCase());
                     if (material != null) {
-                        if (itemStack.getType().equals(material)) {
-                            added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(itemStack.getAmount())));
+                        if (itemStack.equals(material)) {
+                            added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(new ItemStack(itemStack).getAmount())));
                         }
                     }
                 }
