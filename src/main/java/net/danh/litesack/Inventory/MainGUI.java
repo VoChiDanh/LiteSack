@@ -8,7 +8,6 @@ import net.xconfig.bukkit.TextUtils;
 import org.browsit.milkgui.gui.GUI;
 import org.browsit.milkgui.gui.type.BasicGUI;
 import org.browsit.milkgui.item.Item;
-import org.browsit.milkgui.item.ItemSection;
 import org.browsit.milkgui.util.Rows;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -59,34 +58,29 @@ public class MainGUI extends BasicGUI {
                 }
             }
             for (int slot : slots) {
-                if (file.contains("items." + item + ".action")) {
-                    for (String task : Objects.requireNonNull(file.getConfigurationSection("items." + item + ".action")).getKeys(false)) {
-                        if (!task.equalsIgnoreCase("none")) {
-                            setItem(new ItemSection(slot, item_builder, task, e -> {
-                                if (e.getWhoClicked() instanceof Player) {
-                                    e.setCancelled(true);
-                                    Player p = (Player) e.getWhoClicked();
-                                    String taskD = file.getString("items." + item + ".action." + e.getClick().name());
-                                    if (taskD != null) {
-                                        String[] taskS = taskD.split(";");
-                                        if (taskS.length == 5) {
-                                            String do_type = taskS[0];
-                                            String sackID = taskS[1];
-                                            String item_type = taskS[2];
-                                            String item_data = taskS[3];
-                                            String item_amount = taskS[4];
-                                            if (do_type.equalsIgnoreCase("WITHDRAW")) {
-                                                PlayerData.removeSackData(p, sackID, item_type + ";" + item_data, String.valueOf(PlayerData.getAmount(p, item_type + ";" + item_data, item_amount)));
-                                            }
-                                        }
+                setItem(slot, item_builder);
+                addResponse(slot, e -> {
+                    if (e.getWhoClicked() instanceof Player) {
+                        e.setCancelled(true);
+                        Player p = (Player) e.getWhoClicked();
+                        String taskD = file.getString("items." + item + ".action." + e.getClick().name());
+                        if (taskD != null) {
+                            if (taskD.contains(";")) {
+                                String[] taskS = taskD.split(";");
+                                if (taskS.length == 5) {
+                                    String do_type = taskS[0];
+                                    String sackID = taskS[1];
+                                    String item_type = taskS[2];
+                                    String item_data = taskS[3];
+                                    String item_amount = taskS[4];
+                                    if (do_type.equalsIgnoreCase("WITHDRAW")) {
+                                        PlayerData.removeSackData(p, sackID, item_type + ";" + item_data, String.valueOf(PlayerData.getAmount(p, item_type + ";" + item_data, item_amount)));
                                     }
                                 }
-                            }));
-                        } else {
-                            setItem(new ItemSection(slot, item_builder, "cancelled", e -> e.setCancelled(true)));
+                            }
                         }
                     }
-                }
+                });
             }
         }
     }
