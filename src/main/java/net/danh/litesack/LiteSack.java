@@ -1,12 +1,12 @@
 package net.danh.litesack;
 
+import io.github.rysefoxx.inventory.plugin.pagination.InventoryManager;
 import net.Indyuce.mmoitems.MMOItems;
 import net.danh.litesack.API.Data.Sack.SackData;
 import net.danh.litesack.API.Utils.CooldownManager;
 import net.danh.litesack.API.Utils.File;
 import net.danh.litesack.API.WorldGuard.LSWGuard;
 import net.danh.litesack.CMD.LiteSackCMD;
-import net.danh.litesack.Inventory.MainGUI;
 import net.danh.litesack.Listeners.BlockBreak;
 import net.danh.litesack.Listeners.ItemPickup;
 import net.danh.litesack.Listeners.JoinQuit;
@@ -14,7 +14,6 @@ import net.danh.litesack.PlaceholderAPI.LSPapi;
 import net.danh.litesack.Stats.Multi;
 import net.xconfig.bukkit.XConfigBukkit;
 import net.xconfig.bukkit.model.SimpleConfigurationManager;
-import org.browsit.milkgui.MilkGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -30,6 +29,7 @@ public final class LiteSack extends JavaPlugin {
 
     private static LiteSack liteStack;
     private static SimpleConfigurationManager bukkitConfigurationModel;
+    private static InventoryManager inventoryManager;
 
     public static LiteSack getLiteStack() {
         return liteStack;
@@ -39,10 +39,15 @@ public final class LiteSack extends JavaPlugin {
         return bukkitConfigurationModel;
     }
 
+    public static InventoryManager getInventoryManager() {
+        return inventoryManager;
+    }
+
     @Override
     public void onLoad() {
         liteStack = this;
         bukkitConfigurationModel = XConfigBukkit.newConfigurationManager(liteStack);
+        inventoryManager = new InventoryManager(liteStack);
         loadFiles(getBukkitConfigurationModel(), getLogger());
         if (File.getSetting().getBoolean("WORLD_GUARD.USE_FLAG")) {
             LSWGuard.register(liteStack);
@@ -52,6 +57,7 @@ public final class LiteSack extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        inventoryManager.invoke();
         SackData.loadSack(Bukkit.getConsoleSender());
         new LiteSackCMD();
         registerEvents(new JoinQuit(), new BlockBreak(), new ItemPickup());
@@ -59,8 +65,6 @@ public final class LiteSack extends JavaPlugin {
             new LSPapi().register();
         }
         SackData.loadPlayers();
-        MilkGUI.INSTANCE.register(liteStack);
-        new MainGUI().register();
         Bukkit.getScheduler().scheduleSyncRepeatingTask(liteStack, () -> {
             if (!BlockBreak.locations.isEmpty()) {
                 for (int i = 0; i < BlockBreak.locations.size(); i++) {
@@ -96,7 +100,6 @@ public final class LiteSack extends JavaPlugin {
 
     private void loadFiles(SimpleConfigurationManager bukkitConfigurationModel, Logger logger) {
         bukkitConfigurationModel.build("", "config.yml", "settings.yml", "message.yml");
-        LiteSack.getBukkitConfigurationModel().build("GUI", "MainGUI.yml");
         logger.log(Level.INFO, "Loaded Files");
     }
 
@@ -104,7 +107,6 @@ public final class LiteSack extends JavaPlugin {
         bukkitConfigurationModel.save("", "config.yml");
         bukkitConfigurationModel.save("", "settings.yml");
         bukkitConfigurationModel.save("", "message.yml");
-        LiteSack.getBukkitConfigurationModel().save("GUI", "MainGUI.yml");
         logger.log(Level.INFO, "Loaded Files");
     }
 

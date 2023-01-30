@@ -6,7 +6,7 @@ import net.danh.litesack.API.Data.Sack.SackData;
 import net.danh.litesack.API.Utils.Chat;
 import net.danh.litesack.API.Utils.File;
 import net.danh.litesack.API.Utils.Number;
-import net.danh.litesack.Inventory.MainGUI;
+import net.danh.litesack.Inventory.LiteGUI;
 import net.xconfig.bukkit.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -29,9 +29,10 @@ public class LiteSackCMD extends CMDBase {
     public void execute(CommandSender c, String[] args) {
         if (c instanceof Player) {
             Player p = (Player) c;
-            if (args.length == 0) {
-                new MainGUI().openInventory(p);
-                return;
+            if (args.length == 2) {
+                if (args[0].equalsIgnoreCase("openSack")) {
+                    LiteGUI.getGUIJob(args[1]).open(p);
+                }
             }
             if (p.hasPermission("ls.withdraw")) {
                 if (args.length == 4) {
@@ -153,10 +154,14 @@ public class LiteSackCMD extends CMDBase {
                 commands.add("bypass");
             }
             commands.add("help");
+            commands.add("openSack");
             commands.add("withdraw");
             StringUtil.copyPartialMatches(args[0], commands, completions);
         }
         if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("openSack")) {
+                StringUtil.copyPartialMatches(args[1], SackData.sName.keySet().stream().map(String::toLowerCase).collect(Collectors.toList()), completions);
+            }
             if (sender.hasPermission("ls.admin")) {
                 if (args[0].equalsIgnoreCase("reload")) {
                     StringUtil.copyPartialMatches(args[1], Arrays.asList("file", "data"), completions);

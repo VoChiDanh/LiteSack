@@ -35,6 +35,19 @@ public class SackData {
                 sItemFrom.put(sackID + "_" + sackItems, sackFrom);
             });
             sItems.put(sackID, sid);
+            if (sackID.equalsIgnoreCase("mining") || sackID.equalsIgnoreCase("farming")) {
+                if (!LiteSack.getBukkitConfigurationModel().exists("GUI", sackID.toLowerCase() + ".yml")) {
+                    LiteSack.getBukkitConfigurationModel().build("GUI", sackID.toLowerCase() + ".yml");
+                } else {
+                    LiteSack.getBukkitConfigurationModel().reload("GUI", sackID.toLowerCase() + ".yml");
+                }
+            } else {
+                if (!LiteSack.getBukkitConfigurationModel().exists("GUI", sackID.toLowerCase() + ".yml")) {
+                    LiteSack.getBukkitConfigurationModel().buildCustom("GUI", sackID.toLowerCase() + ".yml");
+                } else {
+                    LiteSack.getBukkitConfigurationModel().reload("GUI", sackID.toLowerCase() + ".yml");
+                }
+            }
         });
         Chat.sendCommandSenderMessage(c, Objects.requireNonNull(File.getMessage().getString("SACK.LOAD")).replace("<amount>", String.valueOf(sItems.keySet().size())));
     }
@@ -117,7 +130,6 @@ public class SackData {
 
     public static void setSackItem(Player p, String sackID, String item, Integer amount) {
         int sackStorage = getStorageSack(p, sackID);
-        int sackItem = getSackItem(p, item);
         if (amount <= sackStorage) {
             pSackData.put(p.getName() + "_" + item, amount);
         }
