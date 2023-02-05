@@ -1,5 +1,9 @@
 package net.danh.litesack.API.Utils;
 
+import net.danh.litesack.API.Data.Sack.ItemManager;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.concurrent.ThreadLocalRandom;
@@ -42,6 +46,14 @@ public class Number {
         }
     }
 
+    public static long getRandomLong(long min, long max) {
+        if (max > min + 2) {
+            return ThreadLocalRandom.current().nextLong(min, max);
+        } else {
+            return min;
+        }
+    }
+
     public static double getDouble(String s) {
         try {
             if (!s.contains("-")) {
@@ -64,6 +76,35 @@ public class Number {
         } catch (NumberFormatException | NullPointerException e) {
             return 0;
         }
+    }
+
+    public static int getAllInteger(Player p, ItemStack item, String s) {
+        try {
+            if (!s.contains("-")) {
+                return BigDecimal.valueOf(Long.parseLong(s)).intValue();
+            } else {
+                return getRandomInteger(BigDecimal.valueOf(Long.parseLong(s.split("-")[0])).intValue(), BigDecimal.valueOf(Long.parseLong(s.split("-")[1])).intValue());
+            }
+        } catch (NumberFormatException | NullPointerException e) {
+            if (!s.equalsIgnoreCase("all")) {
+                return 0;
+            } else {
+                return ItemManager.getPlayerAmount(p, item);
+            }
+        }
+    }
+
+    public static long getLong(String s) {
+        try {
+            if (!s.contains("-") && !s.equalsIgnoreCase("all")) {
+                return BigDecimal.valueOf(Long.parseLong(s)).longValue();
+            } else if (!s.equalsIgnoreCase("all")) {
+                return getRandomLong(BigDecimal.valueOf(Long.parseLong(s.split("-")[0])).longValue(), BigDecimal.valueOf(Long.parseLong(s.split("-")[1])).longValue());
+            }
+        } catch (NumberFormatException | NullPointerException e) {
+            return 0;
+        }
+        return 0;
     }
 
     public static String intToSuffixedNumber(int number) {

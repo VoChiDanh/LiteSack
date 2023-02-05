@@ -5,9 +5,7 @@ api-version: 1.14
 authors: [ VoChiDanh ]
 libraries:
   - io.github.rysefoxx.inventory:RyseInventory-Plugin:1.5.7
-depend:
-  - MMOItems
-  - MythicLib
+softdepend:
   - WorldGuard
   - PlaceholderAPI
 commands:

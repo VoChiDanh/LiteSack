@@ -8,9 +8,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
-public class LSPapi extends PlaceholderExpansion {
+public class LitePAPI extends PlaceholderExpansion {
     @Override
     public @NotNull String getIdentifier() {
         return "ls";
@@ -46,12 +44,6 @@ public class LSPapi extends PlaceholderExpansion {
             String item = args.substring(13);
             return String.valueOf(SackData.getSackItem(p, item));
         }
-        if (args.startsWith("storage_items_")) {
-            String sack = args.substring(14);
-            AtomicInteger list = new AtomicInteger();
-            SackData.getItemList(sack).forEach(sackItem -> list.addAndGet(SackData.getSackItem(p, sackItem)));
-            return String.valueOf(list.get());
-        }
         if (args.startsWith("format_storage_sack_")) {
             String sackID = args.substring(20);
             return Number.settingFormat(SackData.getStorageSack(p, sackID));
@@ -63,12 +55,6 @@ public class LSPapi extends PlaceholderExpansion {
         if (args.startsWith("format_storage_item_")) {
             String item = args.substring(20);
             return Number.settingFormat(SackData.getSackItem(p, item));
-        }
-        if (args.startsWith("format_storage_items_")) {
-            String sack = args.substring(21);
-            AtomicInteger list = new AtomicInteger();
-            SackData.getItemList(sack).forEach(sackItem -> list.addAndGet(SackData.getSackItem(p, sackItem)));
-            return Number.settingFormat(list.get());
         }
         return null;
     }

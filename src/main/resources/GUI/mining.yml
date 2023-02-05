@@ -2,87 +2,129 @@ title: "Mining Sack"
 size: 4
 items:
   cobblestone:
-    material_type: MMOITEMS
-    material: MATERIAL;COBBLESTONE
+    material_type: VANILLA
+    material: COBBLESTONE
+    display: "&eCobblestone"
+    lore:
+      - "&7Right Click - Withdraw 32 Item"
+      - "&7Left Click - Deposit 32 Item"
+      - "&7Shift Right Click - Withdraw <storage_item_VANILLA;COBBLESTONE> Item"
+      - "&7Shift Left Click - Deposit All Item"
     action:
-      RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-COBBLESTONE;1
-      LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-COBBLESTONE;32
-      SHIFT_RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-COBBLESTONE;256
-      SHIFT_LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-COBBLESTONE;all
+      RIGHT: WITHDRAW;MINING;VANILLA;COBBLESTONE;32
+      LEFT: DEPOSIT;MINING;VANILLA;COBBLESTONE;32
+      SHIFT_RIGHT: WITHDRAW;MINING;VANILLA;COBBLESTONE;all
+      SHIFT_LEFT: DEPOSIT;MINING;VANILLA;COBBLESTONE;all
     slot: 10
   coal:
-    material_type: MMOITEMS
-    material: MATERIAL;COAL
+    material_type: VANILLA
+    material: COAL
+    display: "&eCoal"
+    lore:
+      - "&7Right Click - Withdraw 32 Item"
+      - "&7Left Click - Deposit 32 Item"
+      - "&7Shift Right Click - Withdraw <storage_item_VANILLA;COAL> Item"
+      - "&7Shift Left Click - Deposit All Item"
     action:
-      RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-COAL;1
-      LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-COAL;32
-      SHIFT_RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-COAL;256
-      SHIFT_LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-COAL;all
+      RIGHT: WITHDRAW;MINING;VANILLA;COAL;32
+      LEFT: DEPOSIT;MINING;VANILLA;COAL;32
+      SHIFT_RIGHT: WITHDRAW;MINING;VANILLA;COAL;all
+      SHIFT_LEFT: DEPOSIT;MINING;VANILLA;COAL;all
     slot: 12
   iron:
-    material_type: MMOITEMS
-    material: MATERIAL;IRON_INGOT
+    material_type: VANILLA
+    material: IRON_INGOT
+    display: "&eIron Ingot"
+    lore:
+      - "&7Right Click - Withdraw 32 Item"
+      - "&7Left Click - Deposit 32 Item"
+      - "&7Shift Right Click - Withdraw <storage_item_VANILLA;IRON_INGOT> Item"
+      - "&7Shift Left Click - Deposit All Item"
     action:
-      RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-IRON_INGOT;1
-      LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-IRON_INGOT;32
-      SHIFT_RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-IRON_INGOT;256
-      SHIFT_LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-IRON_INGOT;all
+      RIGHT: WITHDRAW;MINING;VANILLA;IRON_INGOT;32
+      LEFT: DEPOSIT;MINING;VANILLA;IRON_INGOT;32
+      SHIFT_RIGHT: WITHDRAW;MINING;VANILLA;IRON_INGOT;all
+      SHIFT_LEFT: DEPOSIT;MINING;VANILLA;IRON_INGOT;all
     slot: 14
   gold:
-    material_type: MMOITEMS
-    material: MATERIAL;GOLD_INGOT
+    material_type: VANILLA
+    material: GOLD_INGOT
+    display: "&eGold Ingot"
+    lore:
+      - "&7Right Click - Withdraw 32 Item"
+      - "&7Left Click - Deposit 32 Item"
+      - "&7Shift Right Click - Withdraw <storage_item_VANILLA;GOLD_INGOT> Item"
+      - "&7Shift Left Click - Deposit All Item"
     action:
-      RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-GOLD_INGOT;1
-      LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-GOLD_INGOT;32
-      SHIFT_RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-GOLD_INGOT;256
-      SHIFT_LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-GOLD_INGOT;all
+      RIGHT: WITHDRAW;MINING;VANILLA;GOLD_INGOT;32
+      LEFT: DEPOSIT;MINING;VANILLA;GOLD_INGOT;32
+      SHIFT_RIGHT: WITHDRAW;MINING;VANILLA;GOLD_INGOT;all
+      SHIFT_LEFT: DEPOSIT;MINING;VANILLA;GOLD_INGOT;all
     slot: 16
   diamond:
-    material_type: MMOITEMS
-    material: MATERIAL;DIAMOND
+    material_type: VANILLA
+    material: DIAMOND
+    display: "&eDiamond"
+    lore:
+      - "&7Right Click - Withdraw 32 Item"
+      - "&7Left Click - Deposit 32 Item"
+      - "&7Shift Right Click - Withdraw <storage_item_VANILLA;DIAMOND> Item"
+      - "&7Shift Left Click - Deposit All Item"
     action:
-      RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-DIAMOND;1
-      LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-DIAMOND;32
-      SHIFT_RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-DIAMOND;256
-      SHIFT_LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-DIAMOND;all
+      RIGHT: WITHDRAW;MINING;VANILLA;DIAMOND;32
+      LEFT: DEPOSIT;MINING;VANILLA;DIAMOND;32
+      SHIFT_RIGHT: WITHDRAW;MINING;VANILLA;DIAMOND;all
+      SHIFT_LEFT: DEPOSIT;MINING;VANILLA;DIAMOND;all
     slot: 19
   emerald:
-    material_type: MMOITEMS
-    material: MATERIAL;EMERALD
+    material_type: VANILLA
+    material: EMERALD
+    display: "&eEmerald"
+    lore:
+      - "&7Right Click - Withdraw 32 Item"
+      - "&7Left Click - Deposit 32 Item"
+      - "&7Shift Right Click - Withdraw <storage_item_VANILLA;EMERALD> Item"
+      - "&7Shift Left Click - Deposit All Item"
     action:
-      RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-EMERALD;1
-      LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-EMERALD;32
-      SHIFT_RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-EMERALD;256
-      SHIFT_LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-EMERALD;all
+      RIGHT: WITHDRAW;MINING;VANILLA;EMERALD;32
+      LEFT: DEPOSIT;MINING;VANILLA;EMERALD;32
+      SHIFT_RIGHT: WITHDRAW;MINING;VANILLA;EMERALD;all
+      SHIFT_LEFT: DEPOSIT;MINING;VANILLA;EMERALD;all
     slot: 21
   quartz:
-    material_type: MMOITEMS
-    material: MATERIAL;QUARTZ
+    material_type: VANILLA
+    material: QUARTZ
+    display: "&eQuartz"
+    lore:
+      - "&7Right Click - Withdraw 32 Item"
+      - "&7Left Click - Deposit 32 Item"
+      - "&7Shift Right Click - Withdraw <storage_item_VANILLA;QUARTZ> Item"
+      - "&7Shift Left Click - Deposit All Item"
     action:
-      RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-QUARTZ;1
-      LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-QUARTZ;32
-      SHIFT_RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-QUARTZ;256
-      SHIFT_LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-QUARTZ;all
+      RIGHT: WITHDRAW;MINING;VANILLA;QUARTZ;32
+      LEFT: DEPOSIT;MINING;VANILLA;QUARTZ;32
+      SHIFT_RIGHT: WITHDRAW;MINING;VANILLA;QUARTZ;all
+      SHIFT_LEFT: DEPOSIT;MINING;VANILLA;QUARTZ;all
     slot: 23
   netherite:
-    material_type: MMOITEMS
-    material: MATERIAL;NETHERITE_INGOT
+    material_type: VANILLA
+    material: NETHERITE_INGOT
+    display: "&eNetherite Ingot"
+    lore:
+      - "&7Right Click - Withdraw 32 Item"
+      - "&7Left Click - Deposit 32 Item"
+      - "&7Shift Right Click - Withdraw <storage_item_VANILLA;NETHERITE_INGOT> Item"
+      - "&7Shift Left Click - Deposit All Item"
     action:
-      RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-NETHERITE_INGOT;1
-      LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-NETHERITE_INGOT;32
-      SHIFT_RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-NETHERITE_INGOT;256
-      SHIFT_LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-NETHERITE_INGOT;all
+      RIGHT: WITHDRAW;MINING;VANILLA;NETHERITE_INGOT;32
+      LEFT: DEPOSIT;MINING;VANILLA;NETHERITE_INGOT;32
+      SHIFT_RIGHT: WITHDRAW;MINING;VANILLA;NETHERITE_INGOT;all
+      SHIFT_LEFT: DEPOSIT;MINING;VANILLA;NETHERITE_INGOT;all
     slot: 25
   decorates:
     material_type: VANILLA
     material: BLACK_STAINED_GLASS_PANE
     amount: 1
-    display: "&7"
-    lore:
-      - "&7Right Click - Withdraw 1 Item"
-      - "&7Left Click - Withdraw 32 Item"
-      - "&7Shift Right Click - Withdraw 256 Item"
-      - "&7Shift Left Click - Withdraw all Item"
     action:
       RIGHT: none
       LEFT: none
@@ -117,3 +159,75 @@ items:
       - 33
       - 34
       - 35
+#  cobblestone:
+#    material_type: MMOITEMS
+#    material: MATERIAL;COBBLESTONE
+#    action:
+#      RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-COBBLESTONE;1
+#      LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-COBBLESTONE;32
+#      SHIFT_RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-COBBLESTONE;256
+#      SHIFT_LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-COBBLESTONE;all
+#    slot: 10
+#  coal:
+#    material_type: MMOITEMS
+#    material: MATERIAL;COAL
+#    action:
+#      RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-COAL;1
+#      LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-COAL;32
+#      SHIFT_RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-COAL;256
+#      SHIFT_LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-COAL;all
+#    slot: 12
+#  iron:
+#    material_type: MMOITEMS
+#    material: MATERIAL;IRON_INGOT
+#    action:
+#      RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-IRON_INGOT;1
+#      LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-IRON_INGOT;32
+#      SHIFT_RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-IRON_INGOT;256
+#      SHIFT_LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-IRON_INGOT;all
+#    slot: 14
+#  gold:
+#    material_type: MMOITEMS
+#    material: MATERIAL;GOLD_INGOT
+#    action:
+#      RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-GOLD_INGOT;1
+#      LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-GOLD_INGOT;32
+#      SHIFT_RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-GOLD_INGOT;256
+#      SHIFT_LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-GOLD_INGOT;all
+#    slot: 16
+#  diamond:
+#    material_type: MMOITEMS
+#    material: MATERIAL;DIAMOND
+#    action:
+#      RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-DIAMOND;1
+#      LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-DIAMOND;32
+#      SHIFT_RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-DIAMOND;256
+#      SHIFT_LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-DIAMOND;all
+#    slot: 19
+#  emerald:
+#    material_type: MMOITEMS
+#    material: MATERIAL;EMERALD
+#    action:
+#      RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-EMERALD;1
+#      LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-EMERALD;32
+#      SHIFT_RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-EMERALD;256
+#      SHIFT_LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-EMERALD;all
+#    slot: 21
+#  quartz:
+#    material_type: MMOITEMS
+#    material: MATERIAL;QUARTZ
+#    action:
+#      RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-QUARTZ;1
+#      LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-QUARTZ;32
+#      SHIFT_RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-QUARTZ;256
+#      SHIFT_LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-QUARTZ;all
+#    slot: 23
+#  netherite:
+#    material_type: MMOITEMS
+#    material: MATERIAL;NETHERITE_INGOT
+#    action:
+#      RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-NETHERITE_INGOT;1
+#      LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-NETHERITE_INGOT;32
+#      SHIFT_RIGHT: WITHDRAW;MINING;MMOITEMS;MATERIAL-NETHERITE_INGOT;256
+#      SHIFT_LEFT: WITHDRAW;MINING;MMOITEMS;MATERIAL-NETHERITE_INGOT;all
+#    slot: 25

@@ -29,12 +29,12 @@ public class BlockBreak implements Listener {
         Player p = e.getPlayer();
         Block block = e.getBlock();
         Location location = block.getLocation();
-        if (LSWGuard.handleForLocation(p, e.getBlock().getLocation(), e, LSWGuard.getStateFlag("ls-mining"))) {
+        if (LSWGuard.handleForLocation(p, e.getBlock().getLocation(), "ls-mining")) {
             if (PlayerData.bypass.containsKey(p) && PlayerData.bypass.get(p)) return;
             if (block.getBlockData() instanceof Ageable) {
                 Ageable ageable = (Ageable) block.getBlockData();
                 if (ageable.getAge() == ageable.getMaximumAge()) {
-                    if (!PlayerData.canBreak(p, block.getType())) {
+                    if (!PlayerData.canBreak(block.getType())) {
                         e.setCancelled(true);
                         return;
                     }
@@ -49,7 +49,7 @@ public class BlockBreak implements Listener {
                     }
                 }
             } else {
-                if (PlayerData.canBreak(p, block.getType())) {
+                if (PlayerData.canBreak(block.getType())) {
                     if (PlayerData.addSackData(p, new ItemStack(block.getType()), SackType.BLOCK_BREAK)) {
                         e.setCancelled(true);
                         e.setDropItems(false);
