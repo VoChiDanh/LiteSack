@@ -13,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +38,7 @@ public class BlockBreak implements Listener {
                         e.setCancelled(true);
                         return;
                     }
-                    if (PlayerData.addSackData(p, block.getType(), SackType.BLOCK_BREAK)) {
+                    if (PlayerData.addSackData(p, new ItemStack(block.getType()), SackType.BLOCK_BREAK)) {
                         e.setCancelled(true);
                         e.setDropItems(false);
                         block.getDrops().clear();
@@ -49,7 +50,7 @@ public class BlockBreak implements Listener {
                 }
             } else {
                 if (PlayerData.canBreak(p, block.getType())) {
-                    if (PlayerData.addSackData(p, block.getType(), SackType.BLOCK_BREAK)) {
+                    if (PlayerData.addSackData(p, new ItemStack(block.getType()), SackType.BLOCK_BREAK)) {
                         e.setCancelled(true);
                         e.setDropItems(false);
                         block.getDrops().clear();

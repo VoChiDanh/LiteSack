@@ -96,7 +96,7 @@ public class PlayerData {
         return added.get();
     }
 
-    public static boolean addSackData(Player p, Material itemStack, SackType sackType) {
+    public static boolean addSackData(Player p, ItemStack itemStack, SackType sackType) {
         AtomicBoolean added = new AtomicBoolean(false);
         SackData.getSackList().forEach(sackID -> SackData.getItemList(sackID).forEach(item -> SackData.sItemFrom.get(sackID + "_" + item).forEach(from -> {
             String[] fromData = from.split(";");
@@ -107,39 +107,40 @@ public class PlayerData {
                 if (fromType.equalsIgnoreCase("VANILLA")) {
                     Material material = Material.getMaterial(fromMaterial);
                     if (material != null) {
-                        if (itemStack.equals(material)) {
+                        if (itemStack.getType().equals(material)) {
                             ItemStack tool = new ItemStack(p.getInventory().getItemInMainHand());
                             NBTItem nbtItem = NBTItem.get(tool);
                             if (nbtItem != null && nbtItem.getType() != null && nbtItem.getString("MMOITEMS_ITEM_ID") != null && nbtItem.getDouble("MMOITEMS_MULTI") > 0d) {
                                 int multi = (int) nbtItem.getDouble("MMOITEMS_MULTI");
-                                added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf((new ItemStack(itemStack).getAmount() * Number.getInteger(fromAmount)) + multi)));
+                                added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf((itemStack.getAmount() * Number.getInteger(fromAmount)) + multi)));
                             } else {
-                                added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(new ItemStack(itemStack).getAmount() * Number.getInteger(fromAmount))));
+                                added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(itemStack.getAmount() * Number.getInteger(fromAmount))));
                             }
                         }
                     }
                 }
-            }
-            if (sackType.equals(SackType.ITEM_PICKUP)) {
+            } else if (sackType.equals(SackType.ITEM_PICKUP)) {
                 String[] material_drop = from.split(";");
                 String materialFrom = material_drop[0];
                 String materialType = material_drop[1];
-                if (materialFrom.equalsIgnoreCase("VANILLA")) {
-                    Material material = Material.getMaterial(materialType.toUpperCase());
-                    if (material != null) {
-                        if (itemStack.equals(material)) {
-                            added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(new ItemStack(itemStack).getAmount())));
-                        }
-                    }
-                }
                 if (materialFrom.equalsIgnoreCase("MMOITEMS")) {
                     String[] mmoitems = materialType.split("-");
                     String type = mmoitems[0];
                     String id = mmoitems[1];
-                    NBTItem nbtItem = NBTItem.get(new ItemStack(itemStack));
+                    NBTItem nbtItem = NBTItem.get(itemStack);
                     if (nbtItem != null && nbtItem.getType() != null && nbtItem.getString("MMOITEMS_ITEM_ID") != null) {
                         if (nbtItem.getType().equalsIgnoreCase(type) && nbtItem.getString("MMOITEMS_ITEM_ID").equalsIgnoreCase(id)) {
-                            added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(new ItemStack(itemStack).getAmount())));
+                            added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(itemStack.getAmount())));
+                        }
+                    }
+                } else if (materialFrom.equalsIgnoreCase("VANILLA")) {
+                    Material material = Material.getMaterial(materialType.toUpperCase());
+                    if (material != null) {
+                        NBTItem nbtItem = NBTItem.get(itemStack);
+                        if (nbtItem == null) {
+                            if (itemStack.getType().equals(material)) {
+                                added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(itemStack.getAmount())));
+                            }
                         }
                     }
                 }
