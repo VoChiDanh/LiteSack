@@ -4,9 +4,12 @@ import io.github.rysefoxx.inventory.plugin.content.InventoryContents;
 import io.github.rysefoxx.inventory.plugin.content.InventoryProvider;
 import io.github.rysefoxx.inventory.plugin.other.EventCreator;
 import io.github.rysefoxx.inventory.plugin.pagination.RyseInventory;
-import net.Indyuce.mmoitems.MMOItems;
-import net.Indyuce.mmoitems.api.item.mmoitem.MMOItem;
 import net.danh.litesack.API.Data.Player.PlayerData;
+import net.danh.litesack.API.Data.Sack.ItemManager;
+import net.danh.litesack.API.Utils.Chat;
+import net.danh.litesack.API.Utils.File;
+import net.danh.litesack.API.Utils.LocalPAPI;
+import net.danh.litesack.API.Utils.Number;
 import net.danh.litesack.LiteSack;
 import net.xconfig.bukkit.TextUtils;
 import org.bukkit.Material;
@@ -34,7 +37,43 @@ public class LiteGUI {
             }).build(LiteSack.getLiteStack(), LiteSack.getInventoryManager());
         }
         String title = TextUtils.colorize(Objects.requireNonNull(file.getString("title")));
+        String finalJob = job;
         return RyseInventory.builder().title(title).rows(file.getInt("size")).provider(new InventoryProvider() {
+            @Override
+            public void update(Player player, InventoryContents contents) {
+                for (String item : Objects.requireNonNull(file.getConfigurationSection("items")).getKeys(false)) {
+                    List<Integer> slots = new ArrayList<>();
+                    if (file.contains("items." + item + ".slots")) {
+                        slots = file.getIntegerList("items." + item + ".slots");
+                    } else if (file.contains("items." + item + ".slot")) {
+                        slots = Collections.singletonList(file.getInt("items." + item + ".slot"));
+                    }
+                    String materialTypeS = file.getString("items." + item + ".material_type");
+                    ItemStack item_builder = null;
+                    String materialS = file.getString("items." + item + ".material");
+                    if (materialTypeS != null && materialTypeS.equalsIgnoreCase("VANILLA")) {
+                        if (materialS != null) {
+                            Material material = Material.getMaterial(materialS);
+                            int amount = file.getInt("items." + item + ".amount");
+                            String displayName = file.getString("items." + item + ".display");
+                            List<String> lore = file.getStringList("items." + item + ".lore");
+                            if (amount <= 0) amount = 1;
+                            if (displayName != null && !lore.isEmpty()) {
+                                item_builder = new ItemBuilder(material != null ? material : Material.STONE).amount(amount).displayName(LocalPAPI.parse(player, TextUtils.colorize(displayName))).lore(LocalPAPI.parse(player, TextUtils.colorize(lore))).flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE).build();
+                            } else if (displayName != null) {
+                                item_builder = new ItemBuilder(material != null ? material : Material.STONE).amount(amount).displayName(LocalPAPI.parse(player, TextUtils.colorize(displayName))).flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE).build();
+                            } else {
+                                item_builder = new ItemBuilder(material != null ? material : Material.STONE).amount(amount).flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE).build();
+
+                            }
+                        }
+                    }
+                    for (int slot : slots) {
+                        contents.update(slot, item_builder != null ? item_builder : new ItemStack(Material.STONE));
+                    }
+                }
+            }
+
             @Override
             public void init(Player player, InventoryContents contents) {
                 for (String item : Objects.requireNonNull(file.getConfigurationSection("items")).getKeys(false)) {
@@ -53,19 +92,14 @@ public class LiteGUI {
                             int amount = file.getInt("items." + item + ".amount");
                             String displayName = file.getString("items." + item + ".display");
                             List<String> lore = file.getStringList("items." + item + ".lore");
-                            if (material != null && displayName != null && !lore.isEmpty()) {
-                                item_builder = new ItemBuilder(material).amount(amount).displayName(TextUtils.colorize(displayName)).lore(TextUtils.colorize(lore)).flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE).build();
-                            }
-                        }
-                    } else if (materialTypeS != null && materialTypeS.equalsIgnoreCase("MMOITEMS")) {
-                        if (materialS != null) {
-                            String[] materialSS = materialS.split(";");
-                            MMOItem mmoitem = MMOItems.plugin.getMMOItem(MMOItems.plugin.getTypes().get(materialSS[0]), materialSS[1]);
-                            if (mmoitem != null) {
-                                ItemStack mmo = mmoitem.newBuilder().build();
-                                if (mmo != null) {
-                                    item_builder = mmo;
-                                }
+                            if (amount <= 0) amount = 1;
+                            if (displayName != null && !lore.isEmpty()) {
+                                item_builder = new ItemBuilder(material != null ? material : Material.STONE).amount(amount).displayName(LocalPAPI.parse(player, TextUtils.colorize(displayName))).lore(LocalPAPI.parse(player, TextUtils.colorize(lore))).flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE).build();
+                            } else if (displayName != null) {
+                                item_builder = new ItemBuilder(material != null ? material : Material.STONE).amount(amount).displayName(LocalPAPI.parse(player, TextUtils.colorize(displayName))).flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE).build();
+                            } else {
+                                item_builder = new ItemBuilder(material != null ? material : Material.STONE).amount(amount).flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE).build();
+
                             }
                         }
                     }
@@ -99,6 +133,28 @@ public class LiteGUI {
                                         String item_amount = taskS[4];
                                         if (do_type.equalsIgnoreCase("WITHDRAW")) {
                                             PlayerData.removeSackData(p, sackID, item_type + ";" + item_data, String.valueOf(PlayerData.getAmount(p, item_type + ";" + item_data, item_amount)));
+                                        } else if (do_type.equalsIgnoreCase("DEPOSIT")) {
+                                            if (item_type.equalsIgnoreCase("VANILLA")) {
+                                                Material material = Material.getMaterial(item_data);
+                                                if (material != null) {
+                                                    int amount = Number.getAllInteger(p, new ItemStack(material), item_amount);
+                                                    if (ItemManager.getPlayerAmount(p, new ItemStack(material)) >= amount) {
+                                                        if (PlayerData.increaseSackData(p, finalJob.toUpperCase(), item_type + ";" + item_data, String.valueOf(amount))) {
+                                                            ItemManager.removeItems(p, new ItemStack(material), String.valueOf(amount));
+                                                            if (amount > 0) {
+                                                                Chat.sendPlayerMessage(p, Objects.requireNonNull(File.getMessage().getString("COMMAND.DEPOSIT.DEPOSIT_SUCCESS"))
+                                                                        .replace("<name>", material.name())
+                                                                        .replace("<amount>", String.valueOf(amount)));
+                                                            }
+                                                        }
+                                                    } else {
+                                                        Chat.sendPlayerMessage(p, Objects.requireNonNull(File.getMessage().getString("COMMAND.DEPOSIT.NOT_ENOUGH"))
+                                                                .replace("<name>", material.name())
+                                                                .replace("<deposit>", String.valueOf(amount))
+                                                                .replace("<amount>", String.valueOf(ItemManager.getPlayerAmount(p, new ItemStack(material)))));
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }

@@ -10,7 +10,12 @@ COMMAND:
       - "&a/LiteSack item [set/add/remove] <sackID> <item> <Player> <Amount> - Set item Storage"
     MEMBER:
       - "&a/LiteSack withdraw <sackID> <Item> <Amount> - Withdraw item"
+      - "&a/LiteSack openSack <sackID> - Open Sack Menu"
   WITHDRAW:
     MATERIAL_IS_NULL: "&cMaterial <name> is null"
-    NOT_ENOUGH: "&cMaterial <name> doesn't have enough <withdraw> to withdraw. It only have <amount>"
+    NOT_ENOUGH: "&cMaterial <name> doesn't have enough <withdraw> item to withdraw. You only have <amount>"
     WITHDRAW_SUCCESS: "&aYou got <name> x<amount>!"
+  DEPOSIT:
+    NOT_ENOUGH: "&cMaterial <name> doesn't have enough <deposit> item to deposit. You only have <amount>"
+    DEPOSIT_SUCCESS: "&aYou deposited <name> x<amount>!"
+

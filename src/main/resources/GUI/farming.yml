@@ -2,51 +2,69 @@ title: "Farming Sack"
 size: 3
 items:
   wheat:
-    material_type: MMOITEMS
-    material: MATERIAL;WHEAT
+    material_type: VANILLA
+    material: WHEAT
+    display: "&eWheat"
+    lore:
+      - "&7Right Click - Withdraw 32 Item"
+      - "&7Left Click - Deposit 32 Item"
+      - "&7Shift Right Click - Withdraw <storage_item_VANILLA;WHEAT> Item"
+      - "&7Shift Left Click - Deposit All Item"
     action:
-      RIGHT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-WHEAT;1
-      LEFT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-WHEAT;32
-      SHIFT_RIGHT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-WHEAT;256
-      SHIFT_LEFT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-WHEAT;all
+      RIGHT: WITHDRAW;FARMING;VANILLA;WHEAT;32
+      LEFT: DEPOSIT;FARMING;VANILLA;WHEAT;32
+      SHIFT_RIGHT: WITHDRAW;FARMING;VANILLA;WHEAT;all
+      SHIFT_LEFT: DEPOSIT;FARMING;VANILLA;WHEAT;all
     slot: 10
   beetroot:
-    material_type: MMOITEMS
-    material: MATERIAL;BEETROOT
+    material_type: VANILLA
+    material: BEETROOT
+    display: "&6Beetroot"
+    lore:
+      - "&7Right Click - Withdraw 32 Item"
+      - "&7Left Click - Deposit 32 Item"
+      - "&7Shift Right Click - Withdraw <storage_item_VANILLA;BEETROOT> Item"
+      - "&7Shift Left Click - Deposit All Item"
     action:
-      RIGHT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-BEETROOT;1
-      LEFT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-BEETROOT;32
-      SHIFT_RIGHT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-BEETROOT;256
-      SHIFT_LEFT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-BEETROOT;all
+      RIGHT: WITHDRAW;FARMING;VANILLA;BEETROOT;32
+      LEFT: DEPOSIT;FARMING;VANILLA;BEETROOT;32
+      SHIFT_RIGHT: WITHDRAW;FARMING;VANILLA;BEETROOT;all
+      SHIFT_LEFT: DEPOSIT;FARMING;VANILLA;BEETROOT;all
     slot: 12
   carrot:
-    material_type: MMOITEMS
-    material: MATERIAL;CARROT
+    material_type: VANILLA
+    material: CARROT
+    display: "&eCarrot"
+    lore:
+      - "&7Right Click - Withdraw 32 Item"
+      - "&7Left Click - Deposit 32 Item"
+      - "&7Shift Right Click - Withdraw <storage_item_VANILLA;CARROT> Item"
+      - "&7Shift Left Click - Deposit All Item"
     action:
-      RIGHT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-CARROT;1
-      LEFT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-CARROT;32
-      SHIFT_RIGHT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-CARROT;256
-      SHIFT_LEFT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-CARROT;all
+      RIGHT: WITHDRAW;FARMING;VANILLA;CARROT;32
+      LEFT: DEPOSIT;FARMING;VANILLA;CARROT;32
+      SHIFT_RIGHT: WITHDRAW;FARMING;VANILLA;CARROT;all
+      SHIFT_LEFT: DEPOSIT;FARMING;VANILLA;CARROT;all
     slot: 14
   potato:
-    material_type: MMOITEMS
-    material: MATERIAL;POTATO
+    material_type: VANILLA
+    material: POTATO
+    display: "&ePotato"
+    lore:
+      - "&7Right Click - Withdraw 32 Item"
+      - "&7Left Click - Deposit 32 Item"
+      - "&7Shift Right Click - Withdraw <storage_item_VANILLA;POTATO> Item"
+      - "&7Shift Left Click - Deposit All Item"
     action:
-      RIGHT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-POTATO;1
-      LEFT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-POTATO;32
-      SHIFT_RIGHT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-POTATO;256
-      SHIFT_LEFT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-POTATO;all
+      RIGHT: WITHDRAW;FARMING;VANILLA;POTATO;32
+      LEFT: DEPOSIT;FARMING;VANILLA;POTATO;32
+      SHIFT_RIGHT: WITHDRAW;FARMING;VANILLA;POTATO;all
+      SHIFT_LEFT: DEPOSIT;FARMING;VANILLA;POTATO;all
     slot: 16
   decorates:
     material_type: VANILLA
     material: BLACK_STAINED_GLASS_PANE
     amount: 1
-    display: "&7"
-    lore:
-      - "&7Right Click - Withdraw 1 Item"
-      - "&7Left Click - Withdraw 32 Item"
-      - "&7Shift Right Click - Withdraw 64 Item"
-      - "&7Shift Left Click - Withdraw all Item"
     action:
       RIGHT: none
       LEFT: none
@@ -76,3 +94,39 @@ items:
       - 24
       - 25
       - 26
+#  wheat:
+#    material_type: MMOITEMS
+#    material: MATERIAL;WHEAT
+#    action:
+#      RIGHT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-WHEAT;1
+#      LEFT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-WHEAT;32
+#      SHIFT_RIGHT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-WHEAT;256
+#      SHIFT_LEFT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-WHEAT;all
+#    slot: 10
+#  beetroot:
+#    material_type: MMOITEMS
+#    material: MATERIAL;BEETROOT
+#    action:
+#      RIGHT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-BEETROOT;1
+#      LEFT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-BEETROOT;32
+#      SHIFT_RIGHT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-BEETROOT;256
+#      SHIFT_LEFT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-BEETROOT;all
+#    slot: 12
+#  carrot:
+#    material_type: MMOITEMS
+#    material: MATERIAL;CARROT
+#    action:
+#      RIGHT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-CARROT;1
+#      LEFT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-CARROT;32
+#      SHIFT_RIGHT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-CARROT;256
+#      SHIFT_LEFT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-CARROT;all
+#    slot: 14
+#  potato:
+#    material_type: MMOITEMS
+#    material: MATERIAL;POTATO
+#    action:
+#      RIGHT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-POTATO;1
+#      LEFT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-POTATO;32
+#      SHIFT_RIGHT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-POTATO;256
+#      SHIFT_LEFT: WITHDRAW;FARMING;MMOITEMS;MATERIAL-POTATO;all
+#    slot: 16

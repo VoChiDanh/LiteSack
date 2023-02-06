@@ -1,7 +1,6 @@
 package net.danh.litesack;
 
 import io.github.rysefoxx.inventory.plugin.pagination.InventoryManager;
-import net.Indyuce.mmoitems.MMOItems;
 import net.danh.litesack.API.Data.Sack.SackData;
 import net.danh.litesack.API.Utils.CooldownManager;
 import net.danh.litesack.API.Utils.File;
@@ -10,8 +9,7 @@ import net.danh.litesack.CMD.LiteSackCMD;
 import net.danh.litesack.Listeners.BlockBreak;
 import net.danh.litesack.Listeners.ItemPickup;
 import net.danh.litesack.Listeners.JoinQuit;
-import net.danh.litesack.PlaceholderAPI.LSPapi;
-import net.danh.litesack.Stats.Multi;
+import net.danh.litesack.PlaceholderAPI.LitePAPI;
 import net.xconfig.bukkit.XConfigBukkit;
 import net.xconfig.bukkit.model.SimpleConfigurationManager;
 import org.bukkit.Bukkit;
@@ -52,7 +50,6 @@ public final class LiteSack extends JavaPlugin {
         if (File.getSetting().getBoolean("WORLD_GUARD.USE_FLAG")) {
             LSWGuard.register(liteStack);
         }
-        MMOItems.plugin.getStats().register(new Multi());
     }
 
     @Override
@@ -62,9 +59,10 @@ public final class LiteSack extends JavaPlugin {
         new LiteSackCMD();
         registerEvents(new JoinQuit(), new BlockBreak(), new ItemPickup());
         if (Bukkit.getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            new LSPapi().register();
+            new LitePAPI().register();
         }
         SackData.loadPlayers();
+        Bukkit.getOnlinePlayers().forEach(SackData::loadPlayerData);
         Bukkit.getScheduler().scheduleSyncRepeatingTask(liteStack, () -> {
             if (!BlockBreak.locations.isEmpty()) {
                 for (int i = 0; i < BlockBreak.locations.size(); i++) {
