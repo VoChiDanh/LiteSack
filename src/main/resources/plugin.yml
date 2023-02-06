@@ -1,7 +1,7 @@
 name: LiteSack
 version: '${project.version}'
 main: net.danh.litesack.LiteSack
-api-version: 1.14
+api-version: 1.13
 authors: [ VoChiDanh ]
 libraries:
   - io.github.rysefoxx.inventory:RyseInventory-Plugin:1.5.7

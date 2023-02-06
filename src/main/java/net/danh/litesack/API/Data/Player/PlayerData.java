@@ -112,13 +112,14 @@ public class PlayerData {
                         if (item_type.equalsIgnoreCase("VANILLA")) {
                             Material material = Material.getMaterial(item_data);
                             Integer number = Number.getInteger(amount);
+                            if (number <= 0) return;
                             if (material != null) {
                                 if (decreaseSackData(p, sackID, item, String.valueOf(number))) {
                                     p.getInventory().addItem(new ItemStack(material, number));
                                     removed.set(true);
-                                    Chat.sendPlayerMessage(p, Objects.requireNonNull(File.getMessage().getString("COMMAND.WITHDRAW.WITHDRAW_SUCCESS")).replace("<name>", new ItemStack(material).getItemMeta().getDisplayName()).replace("<amount>", String.valueOf(number)));
+                                    Chat.sendPlayerMessage(p, Objects.requireNonNull(File.getMessage().getString("COMMAND.WITHDRAW.WITHDRAW_SUCCESS")).replace("<name>", material.name()).replace("<amount>", String.valueOf(number)));
                                 } else {
-                                    Chat.sendPlayerMessage(p, Objects.requireNonNull(File.getMessage().getString("COMMAND.WITHDRAW.NOT_ENOUGH")).replace("<name>", new ItemStack(material).getItemMeta().getDisplayName()).replace("<withdraw>", String.valueOf(number)).replace("<amount>", String.valueOf(SackData.pSackData.get(p.getName() + "_" + item))));
+                                    Chat.sendPlayerMessage(p, Objects.requireNonNull(File.getMessage().getString("COMMAND.WITHDRAW.NOT_ENOUGH")).replace("<name>", material.name()).replace("<withdraw>", String.valueOf(number)).replace("<amount>", String.valueOf(SackData.pSackData.get(p.getName() + "_" + item))));
                                 }
                             } else {
                                 Chat.sendPlayerMessage(p, Objects.requireNonNull(File.getMessage().getString("COMMAND.WITHDRAW.MATERIAL_IS_NULL")).replace("<name>", item_data));

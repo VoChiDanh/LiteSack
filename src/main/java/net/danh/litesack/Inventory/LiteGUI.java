@@ -6,6 +6,8 @@ import io.github.rysefoxx.inventory.plugin.other.EventCreator;
 import io.github.rysefoxx.inventory.plugin.pagination.RyseInventory;
 import net.danh.litesack.API.Data.Player.PlayerData;
 import net.danh.litesack.API.Data.Sack.ItemManager;
+import net.danh.litesack.API.Utils.Chat;
+import net.danh.litesack.API.Utils.File;
 import net.danh.litesack.API.Utils.LocalPAPI;
 import net.danh.litesack.API.Utils.Number;
 import net.danh.litesack.LiteSack;
@@ -139,7 +141,17 @@ public class LiteGUI {
                                                     if (ItemManager.getPlayerAmount(p, new ItemStack(material)) >= amount) {
                                                         if (PlayerData.increaseSackData(p, finalJob.toUpperCase(), item_type + ";" + item_data, String.valueOf(amount))) {
                                                             ItemManager.removeItems(p, new ItemStack(material), String.valueOf(amount));
+                                                            if (amount > 0) {
+                                                                Chat.sendPlayerMessage(p, Objects.requireNonNull(File.getMessage().getString("COMMAND.DEPOSIT.DEPOSIT_SUCCESS"))
+                                                                        .replace("<name>", material.name())
+                                                                        .replace("<amount>", String.valueOf(amount)));
+                                                            }
                                                         }
+                                                    } else {
+                                                        Chat.sendPlayerMessage(p, Objects.requireNonNull(File.getMessage().getString("COMMAND.DEPOSIT.NOT_ENOUGH"))
+                                                                .replace("<name>", material.name())
+                                                                .replace("<deposit>", String.valueOf(amount))
+                                                                .replace("<amount>", String.valueOf(ItemManager.getPlayerAmount(p, new ItemStack(material)))));
                                                     }
                                                 }
                                             }
