@@ -2,14 +2,15 @@ package net.danh.litesack;
 
 import io.github.rysefoxx.inventory.plugin.pagination.InventoryManager;
 import net.danh.litesack.API.Data.Sack.SackData;
+import net.danh.litesack.API.ItemManager.Vanilla.VItem;
+import net.danh.litesack.API.Resources.File;
 import net.danh.litesack.API.Utils.CooldownManager;
-import net.danh.litesack.API.Utils.File;
 import net.danh.litesack.API.WorldGuard.LSWGuard;
 import net.danh.litesack.CMD.LiteSackCMD;
 import net.danh.litesack.Listeners.BlockBreak;
 import net.danh.litesack.Listeners.ItemPickup;
 import net.danh.litesack.Listeners.JoinQuit;
-import net.danh.litesack.PlaceholderAPI.LitePAPI;
+import net.danh.litesack.Placeholder.LitePAPI;
 import net.xconfig.bukkit.XConfigBukkit;
 import net.xconfig.bukkit.model.SimpleConfigurationManager;
 import org.bukkit.Bukkit;
@@ -46,6 +47,7 @@ public final class LiteSack extends JavaPlugin {
         liteStack = this;
         bukkitConfigurationModel = XConfigBukkit.newConfigurationManager(liteStack);
         inventoryManager = new InventoryManager(liteStack);
+        new VItem().register();
         loadFiles(getBukkitConfigurationModel(), getLogger());
         if (File.getSetting().getBoolean("WORLD_GUARD.USE_FLAG")) {
             LSWGuard.register(liteStack);

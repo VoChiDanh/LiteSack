@@ -1,4 +1,4 @@
-package net.danh.litesack.PlaceholderAPI;
+package net.danh.litesack.Placeholder;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.danh.litesack.API.Data.Sack.SackData;
