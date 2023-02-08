@@ -1,4 +1,4 @@
-package net.danh.litesack.Inventory;
+package net.danh.litesack.API.Items;
 
 
 import org.apache.commons.lang.Validate;

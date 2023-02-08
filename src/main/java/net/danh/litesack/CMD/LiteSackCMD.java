@@ -3,8 +3,8 @@ package net.danh.litesack.CMD;
 import net.danh.litesack.API.CMD.CMDBase;
 import net.danh.litesack.API.Data.Player.PlayerData;
 import net.danh.litesack.API.Data.Sack.SackData;
-import net.danh.litesack.API.Utils.Chat;
-import net.danh.litesack.API.Utils.File;
+import net.danh.litesack.API.Resources.Chat;
+import net.danh.litesack.API.Resources.File;
 import net.danh.litesack.API.Utils.Number;
 import net.danh.litesack.Inventory.LiteGUI;
 import net.xconfig.bukkit.TextUtils;
@@ -115,6 +115,12 @@ public class LiteSackCMD extends CMDBase {
                             Chat.debug(c, "&c sackID = " + args[2] + ", item = " + args[3] + ", Player = " + args[4] + ", Action = " + args[1] + ", Amount = " + args[5]);
                         }
                     }
+                }
+            }
+            if (args.length == 1) {
+                if (args[0].equalsIgnoreCase("reload")) {
+                    File.reloadFiles(c);
+                    SackData.loadSack(c);
                 }
             }
             if (args.length == 2) {

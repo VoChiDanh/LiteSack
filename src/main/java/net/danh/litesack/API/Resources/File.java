@@ -1,4 +1,4 @@
-package net.danh.litesack.API.Utils;
+package net.danh.litesack.API.Resources;
 
 import net.danh.litesack.LiteSack;
 import org.bukkit.command.CommandSender;

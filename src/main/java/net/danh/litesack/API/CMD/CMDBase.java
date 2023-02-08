@@ -2,6 +2,7 @@ package net.danh.litesack.API.CMD;
 
 import net.danh.litesack.LiteSack;
 import org.bukkit.command.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Objects;
@@ -17,13 +18,13 @@ public abstract class CMDBase implements CommandExecutor, TabCompleter {
     public abstract void execute(CommandSender c, String[] args);
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         execute(sender, args);
         return true;
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         return TabComplete(sender, args);
     }
 

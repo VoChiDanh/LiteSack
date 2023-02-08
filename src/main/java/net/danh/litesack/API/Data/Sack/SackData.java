@@ -1,7 +1,7 @@
 package net.danh.litesack.API.Data.Sack;
 
-import net.danh.litesack.API.Utils.Chat;
-import net.danh.litesack.API.Utils.File;
+import net.danh.litesack.API.Resources.Chat;
+import net.danh.litesack.API.Resources.File;
 import net.danh.litesack.LiteSack;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;

@@ -1,6 +1,6 @@
 package net.danh.litesack.API.WorldGuard;
 
-import net.danh.litesack.API.Utils.Chat;
+import net.danh.litesack.API.Resources.Chat;
 import net.danh.litesack.LiteSack;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

@@ -1,8 +1,9 @@
 package net.danh.litesack.API.Data.Player;
 
 import net.danh.litesack.API.Data.Sack.SackData;
-import net.danh.litesack.API.Utils.Chat;
-import net.danh.litesack.API.Utils.File;
+import net.danh.litesack.API.ItemManager.Manager.IManager;
+import net.danh.litesack.API.Resources.Chat;
+import net.danh.litesack.API.Resources.File;
 import net.danh.litesack.API.Utils.Number;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -24,12 +25,9 @@ public class PlayerData {
             String[] fromData = from.split(";");
             String fromType = fromData[0];
             String fromMaterial = fromData[1];
-            if (fromType.equalsIgnoreCase("VANILLA")) {
-                Material material = Material.getMaterial(fromMaterial);
-                if (material != null) {
-                    if (itemStack.equals(material)) {
-                        atomicBoolean.set(true);
-                    }
+            if (IManager.ima.get(fromType).checkMaterial(fromMaterial)) {
+                if (IManager.ima.get(fromType).compareItems(new ItemStack(itemStack), fromMaterial)) {
+                    atomicBoolean.set(true);
                 }
             }
         })));
@@ -44,13 +42,10 @@ public class PlayerData {
             String fromMaterial = fromData[1];
             String regenTime = fromData[3];
             if (sackType.equals(SackType.BLOCK_BREAK)) {
-                if (fromType.equalsIgnoreCase("VANILLA")) {
-                    Material material = Material.getMaterial(fromMaterial);
-                    if (material != null) {
-                        if (itemStack.equals(material)) {
-                            if (regenTime != null) {
-                                added.set(Number.getInteger(regenTime));
-                            }
+                if (IManager.ima.get(fromType).checkMaterial(fromMaterial)) {
+                    if (IManager.ima.get(fromType).compareItems(new ItemStack(itemStack), fromMaterial)) {
+                        if (regenTime != null) {
+                            added.set(Number.getInteger(regenTime));
                         }
                     }
                 }
@@ -67,24 +62,18 @@ public class PlayerData {
             String fromMaterial = fromData[1];
             String fromAmount = fromData[2];
             if (sackType.equals(SackType.BLOCK_BREAK)) {
-                if (fromType.equalsIgnoreCase("VANILLA")) {
-                    Material material = Material.getMaterial(fromMaterial);
-                    if (material != null) {
-                        if (itemStack.getType().equals(material)) {
-                            added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(itemStack.getAmount() * Number.getInteger(fromAmount))));
-                        }
+                if (IManager.ima.get(fromType).checkMaterial(fromMaterial)) {
+                    if (IManager.ima.get(fromType).compareItems(IManager.ima.get(fromType).getItemStack(fromMaterial, 1), fromMaterial)) {
+                        added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(itemStack.getAmount() * Number.getInteger(fromAmount))));
                     }
                 }
             } else if (sackType.equals(SackType.ITEM_PICKUP)) {
                 String[] material_drop = from.split(";");
                 String materialFrom = material_drop[0];
                 String materialType = material_drop[1];
-                if (materialFrom.equalsIgnoreCase("VANILLA")) {
-                    Material material = Material.getMaterial(materialType.toUpperCase());
-                    if (material != null) {
-                        if (itemStack.getType().equals(material)) {
-                            added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(itemStack.getAmount())));
-                        }
+                if (IManager.ima.get(materialFrom).checkMaterial(materialType)) {
+                    if (IManager.ima.get(materialFrom).compareItems(IManager.ima.get(materialFrom).getItemStack(materialType, 1), materialType)) {
+                        added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(itemStack.getAmount())));
                     }
                 }
             }
@@ -109,21 +98,19 @@ public class PlayerData {
                         String[] items_split = item.split(";");
                         String item_type = items_split[0];
                         String item_data = items_split[1];
-                        if (item_type.equalsIgnoreCase("VANILLA")) {
-                            Material material = Material.getMaterial(item_data);
-                            Integer number = Number.getInteger(amount);
-                            if (number <= 0) return;
-                            if (material != null) {
-                                if (decreaseSackData(p, sackID, item, String.valueOf(number))) {
-                                    p.getInventory().addItem(new ItemStack(material, number));
-                                    removed.set(true);
-                                    Chat.sendPlayerMessage(p, Objects.requireNonNull(File.getMessage().getString("COMMAND.WITHDRAW.WITHDRAW_SUCCESS")).replace("<name>", material.name()).replace("<amount>", String.valueOf(number)));
-                                } else {
-                                    Chat.sendPlayerMessage(p, Objects.requireNonNull(File.getMessage().getString("COMMAND.WITHDRAW.NOT_ENOUGH")).replace("<name>", material.name()).replace("<withdraw>", String.valueOf(number)).replace("<amount>", String.valueOf(SackData.pSackData.get(p.getName() + "_" + item))));
-                                }
+                        Material material = Material.getMaterial(item_data);
+                        Integer number = Number.getInteger(amount);
+                        if (number <= 0) return;
+                        if (IManager.ima.get(item_type).checkMaterial(item_data)) {
+                            if (decreaseSackData(p, sackID, item, String.valueOf(number))) {
+                                p.getInventory().addItem(IManager.ima.get(item_type).getItemStack(item_data, number));
+                                removed.set(true);
+                                Chat.sendPlayerMessage(p, Objects.requireNonNull(File.getMessage().getString("COMMAND.WITHDRAW.WITHDRAW_SUCCESS")).replace("<name>", material.name()).replace("<amount>", String.valueOf(number)));
                             } else {
-                                Chat.sendPlayerMessage(p, Objects.requireNonNull(File.getMessage().getString("COMMAND.WITHDRAW.MATERIAL_IS_NULL")).replace("<name>", item_data));
+                                Chat.sendPlayerMessage(p, Objects.requireNonNull(File.getMessage().getString("COMMAND.WITHDRAW.NOT_ENOUGH")).replace("<name>", material.name()).replace("<withdraw>", String.valueOf(number)).replace("<amount>", String.valueOf(SackData.pSackData.get(p.getName() + "_" + item))));
                             }
+                        } else {
+                            Chat.sendPlayerMessage(p, Objects.requireNonNull(File.getMessage().getString("COMMAND.WITHDRAW.MATERIAL_IS_NULL")).replace("<name>", item_data));
                         }
                     }
                 });
