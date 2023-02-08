@@ -25,6 +25,6 @@ public class VItem extends MItem {
     public boolean compareItems(ItemStack origin, String item_data) {
         Material material = Material.getMaterial(item_data);
         ItemStack itemStack = new ItemStack(material != null ? material : Material.STONE);
-        return material != null && material.equals(itemStack.getType());
+        return itemStack.getType().equals(origin.getType());
     }
 }

@@ -6,7 +6,7 @@ import io.github.rysefoxx.inventory.plugin.other.EventCreator;
 import io.github.rysefoxx.inventory.plugin.pagination.RyseInventory;
 import net.danh.litesack.API.Data.Player.PlayerData;
 import net.danh.litesack.API.Data.Sack.ItemManager;
-import net.danh.litesack.API.Items.ItemBuilder;
+import net.danh.litesack.API.ItemManager.ItemBuilder;
 import net.danh.litesack.API.Resources.Chat;
 import net.danh.litesack.API.Resources.File;
 import net.danh.litesack.API.Utils.Number;

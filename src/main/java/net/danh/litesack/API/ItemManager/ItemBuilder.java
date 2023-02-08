@@ -1,4 +1,4 @@
-package net.danh.litesack.API.Items;
+package net.danh.litesack.API.ItemManager;
 
 
 import org.apache.commons.lang.Validate;
