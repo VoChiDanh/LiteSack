@@ -2,6 +2,7 @@ package net.danh.litesack;
 
 import io.github.rysefoxx.inventory.plugin.pagination.InventoryManager;
 import net.danh.litesack.API.Data.Sack.SackData;
+import net.danh.litesack.API.ItemManager.Manager.IManager;
 import net.danh.litesack.API.ItemManager.Vanilla.VItem;
 import net.danh.litesack.API.Resources.File;
 import net.danh.litesack.API.Utils.CooldownManager;
@@ -96,6 +97,7 @@ public final class LiteSack extends JavaPlugin {
         for (Location location : BlockBreak.locations) {
             location.getBlock().setType(BlockBreak.blocks.get(location));
         }
+        IManager.getListItemType().forEach(IManager::removeMItem);
     }
 
     private void loadFiles(SimpleConfigurationManager bukkitConfigurationModel, Logger logger) {

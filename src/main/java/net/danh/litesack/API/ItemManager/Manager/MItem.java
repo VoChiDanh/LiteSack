@@ -1,10 +1,7 @@
 package net.danh.litesack.API.ItemManager.Manager;
 
-import net.danh.litesack.LiteSack;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.logging.Level;
 
 public abstract class MItem {
 
@@ -19,12 +16,7 @@ public abstract class MItem {
     }
 
     public void register() {
-        if (IManager.ima.get(getItemType()) == null) {
-            IManager.ima.put(getItemType(), this);
-            LiteSack.getLiteStack().getLogger().log(Level.INFO, "Registered Item Type " + getItemType());
-        } else {
-            LiteSack.getLiteStack().getLogger().log(Level.INFO, "Failed On Register Item Type " + getItemType());
-        }
+        IManager.addMItem(getItemType(), this);
     }
 
     public boolean checkMaterial(String item_data) {
@@ -38,5 +30,9 @@ public abstract class MItem {
 
     public boolean compareItems(ItemStack origin, String item_data) {
         return false;
+    }
+
+    public MItem getMItem() {
+        return this;
     }
 }

@@ -25,8 +25,8 @@ public class PlayerData {
             String[] fromData = from.split(";");
             String fromType = fromData[0];
             String fromMaterial = fromData[1];
-            if (IManager.ima.get(fromType).checkMaterial(fromMaterial)) {
-                if (IManager.ima.get(fromType).compareItems(new ItemStack(itemStack), fromMaterial)) {
+            if (IManager.getMItem(fromType).checkMaterial(fromMaterial)) {
+                if (IManager.getMItem(fromType).compareItems(new ItemStack(itemStack), fromMaterial)) {
                     atomicBoolean.set(true);
                 }
             }
@@ -42,8 +42,8 @@ public class PlayerData {
             String fromMaterial = fromData[1];
             String regenTime = fromData[3];
             if (sackType.equals(SackType.BLOCK_BREAK)) {
-                if (IManager.ima.get(fromType).checkMaterial(fromMaterial)) {
-                    if (IManager.ima.get(fromType).compareItems(new ItemStack(itemStack), fromMaterial)) {
+                if (IManager.getMItem(fromType).checkMaterial(fromMaterial)) {
+                    if (IManager.getMItem(fromType).compareItems(new ItemStack(itemStack), fromMaterial)) {
                         if (regenTime != null) {
                             added.set(Number.getInteger(regenTime));
                         }
@@ -62,8 +62,8 @@ public class PlayerData {
             String fromMaterial = fromData[1];
             String fromAmount = fromData[2];
             if (sackType.equals(SackType.BLOCK_BREAK)) {
-                if (IManager.ima.get(fromType).checkMaterial(fromMaterial)) {
-                    if (IManager.ima.get(fromType).compareItems(IManager.ima.get(fromType).getItemStack(fromMaterial, 1), fromMaterial)) {
+                if (IManager.getMItem(fromType).checkMaterial(fromMaterial)) {
+                    if (IManager.getMItem(fromType).compareItems(IManager.getMItem(fromType).getItemStack(fromMaterial, 1), fromMaterial)) {
                         added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(itemStack.getAmount() * Number.getInteger(fromAmount))));
                     }
                 }
@@ -71,8 +71,8 @@ public class PlayerData {
                 String[] material_drop = from.split(";");
                 String materialFrom = material_drop[0];
                 String materialType = material_drop[1];
-                if (IManager.ima.get(materialFrom).checkMaterial(materialType)) {
-                    if (IManager.ima.get(materialFrom).compareItems(IManager.ima.get(materialFrom).getItemStack(materialType, 1), materialType)) {
+                if (IManager.getMItem(materialFrom).checkMaterial(materialType)) {
+                    if (IManager.getMItem(materialFrom).compareItems(IManager.getMItem(materialFrom).getItemStack(materialType, 1), materialType)) {
                         added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(itemStack.getAmount())));
                     }
                 }
@@ -101,9 +101,9 @@ public class PlayerData {
                         Material material = Material.getMaterial(item_data);
                         Integer number = Number.getInteger(amount);
                         if (number <= 0) return;
-                        if (IManager.ima.get(item_type).checkMaterial(item_data)) {
+                        if (IManager.getMItem(item_type).checkMaterial(item_data)) {
                             if (decreaseSackData(p, sackID, item, String.valueOf(number))) {
-                                p.getInventory().addItem(IManager.ima.get(item_type).getItemStack(item_data, number));
+                                p.getInventory().addItem(IManager.getMItem(item_type).getItemStack(item_data, number));
                                 removed.set(true);
                                 Chat.sendPlayerMessage(p, Objects.requireNonNull(File.getMessage().getString("COMMAND.WITHDRAW.WITHDRAW_SUCCESS")).replace("<name>", material.name()).replace("<amount>", String.valueOf(number)));
                             } else {
