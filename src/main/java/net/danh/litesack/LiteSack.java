@@ -10,7 +10,6 @@ import net.danh.litesack.API.Utils.CooldownManager;
 import net.danh.litesack.API.WorldGuard.LSWGuard;
 import net.danh.litesack.CMD.LiteSackCMD;
 import net.danh.litesack.Listeners.BlockBreak;
-import net.danh.litesack.Listeners.ItemPickup;
 import net.danh.litesack.Listeners.JoinQuit;
 import net.danh.litesack.Placeholder.LitePAPI;
 import net.xconfig.bukkit.XConfigBukkit;
@@ -64,7 +63,7 @@ public final class LiteSack extends JavaPlugin {
         inventoryManager.invoke();
         SackData.loadSack(Bukkit.getConsoleSender());
         new LiteSackCMD();
-        registerEvents(new JoinQuit(), new BlockBreak(), new ItemPickup());
+        registerEvents(new JoinQuit(), new BlockBreak());
         if (Bukkit.getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new LitePAPI().register();
         }

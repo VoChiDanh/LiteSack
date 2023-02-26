@@ -34,19 +34,17 @@ public class PlayerData {
         return atomicBoolean.get();
     }
 
-    public static int getRegenTime(Material itemStack, SackType sackType) {
+    public static int getRegenTime(Material itemStack) {
         AtomicInteger added = new AtomicInteger(5);
         SackData.getSackList().forEach(sackID -> SackData.getItemList(sackID).forEach(item -> SackData.sItemFrom.get(sackID + "_" + item).forEach(from -> {
             String[] fromData = from.split(";");
             String fromType = fromData[0];
             String fromMaterial = fromData[1];
             String regenTime = fromData[3];
-            if (sackType.equals(SackType.BLOCK_BREAK)) {
-                if (IManager.getMItem(fromType).checkMaterial(fromMaterial)) {
-                    if (IManager.getMItem(fromType).compareItems(new ItemStack(itemStack), fromMaterial)) {
-                        if (regenTime != null) {
-                            added.set(Number.getInteger(regenTime));
-                        }
+            if (IManager.getMItem(fromType).checkMaterial(fromMaterial)) {
+                if (IManager.getMItem(fromType).compareItems(new ItemStack(itemStack), fromMaterial)) {
+                    if (regenTime != null) {
+                        added.set(Number.getInteger(regenTime));
                     }
                 }
             }
@@ -54,36 +52,21 @@ public class PlayerData {
         return added.get();
     }
 
-    public static boolean addSackData(Player p, ItemStack itemStack, SackType sackType) {
+    public static boolean addSackData(Player p, ItemStack itemStack) {
         AtomicBoolean added = new AtomicBoolean(false);
         SackData.getSackList().forEach(sackID -> SackData.getItemList(sackID).forEach(item -> SackData.sItemFrom.get(sackID + "_" + item).forEach(from -> {
             String[] fromData = from.split(";");
             String fromType = fromData[0];
             String fromMaterial = fromData[1];
             String fromAmount = fromData[2];
-            if (sackType.equals(SackType.BLOCK_BREAK)) {
-                if (IManager.getMItem(fromType).checkMaterial(fromMaterial)) {
-                    if (IManager.getMItem(fromType).compareItems(IManager.getMItem(fromType).getItemStack(fromMaterial, 1), fromMaterial)) {
-                        added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(itemStack.getAmount() * Number.getInteger(fromAmount))));
-                    } else {
-                        added.set(false);
-                    }
+            if (IManager.getMItem(fromType).checkMaterial(fromMaterial)) {
+                if (IManager.getMItem(fromType).compareItems(IManager.getMItem(fromType).getItemStack(fromMaterial, 1), fromMaterial)) {
+                    added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(itemStack.getAmount() * Number.getInteger(fromAmount))));
                 } else {
                     added.set(false);
                 }
-            } else if (sackType.equals(SackType.ITEM_PICKUP)) {
-                String[] material_drop = from.split(";");
-                String materialFrom = material_drop[0];
-                String materialType = material_drop[1];
-                if (IManager.getMItem(materialFrom).checkMaterial(materialType)) {
-                    if (IManager.getMItem(materialFrom).compareItems(IManager.getMItem(materialFrom).getItemStack(materialType, 1), materialType)) {
-                        added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(itemStack.getAmount())));
-                    } else {
-                        added.set(false);
-                    }
-                } else {
-                    added.set(false);
-                }
+            } else {
+                added.set(false);
             }
         })));
         return added.get();

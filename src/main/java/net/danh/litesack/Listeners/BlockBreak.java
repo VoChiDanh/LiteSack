@@ -1,7 +1,6 @@
 package net.danh.litesack.Listeners;
 
 import net.danh.litesack.API.Data.Player.PlayerData;
-import net.danh.litesack.API.Data.Player.SackType;
 import net.danh.litesack.API.Utils.BlockRegen;
 import net.danh.litesack.API.Utils.CooldownManager;
 import net.danh.litesack.API.WorldGuard.LSWGuard;
@@ -39,7 +38,7 @@ public class BlockBreak implements Listener {
                         e.setCancelled(true);
                         return;
                     }
-                    if (PlayerData.addSackData(p, new ItemStack(block.getType()), SackType.BLOCK_BREAK)) {
+                    if (PlayerData.addSackData(p, new ItemStack(block.getType()))) {
                         if (BlockRegen.isEnable()) {
                             e.setCancelled(true);
                             e.setDropItems(false);
@@ -47,13 +46,13 @@ public class BlockBreak implements Listener {
                             locations.add(location);
                             blocks.put(location, BlockRegen.getNextRegen(block));
                             block.setType(Material.AIR);
-                            CooldownManager.setCooldown(location, PlayerData.getRegenTime(block.getType(), SackType.BLOCK_BREAK));
+                            CooldownManager.setCooldown(location, PlayerData.getRegenTime(block.getType()));
                         }
                     }
                 }
             } else {
                 if (PlayerData.canBreak(block.getType())) {
-                    if (PlayerData.addSackData(p, new ItemStack(block.getType()), SackType.BLOCK_BREAK)) {
+                    if (PlayerData.addSackData(p, new ItemStack(block.getType()))) {
                         if (BlockRegen.isEnable()) {
                             e.setCancelled(true);
                             e.setDropItems(false);
@@ -61,7 +60,7 @@ public class BlockBreak implements Listener {
                             locations.add(location);
                             blocks.put(location, BlockRegen.getNextRegen(block));
                             block.setType(Material.BEDROCK);
-                            CooldownManager.setCooldown(location, PlayerData.getRegenTime(block.getType(), SackType.BLOCK_BREAK));
+                            CooldownManager.setCooldown(location, PlayerData.getRegenTime(block.getType()));
                         }
                     }
                 } else {
