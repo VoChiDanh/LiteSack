@@ -2,6 +2,7 @@ package net.danh.litesack.API.ItemManager.Manager;
 
 import net.danh.litesack.API.ItemManager.Vanilla.VItem;
 import net.danh.litesack.LiteSack;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -17,11 +18,13 @@ public class IManager {
         return mItem != null ? mItem : new VItem();
     }
 
-    public static List<String> getListItemType() {
+    @Contract(" -> new")
+    public static @NotNull List<String> getListItemType() {
         return new ArrayList<>(ima.keySet());
     }
 
-    public static List<MItem> getListMItem() {
+    @Contract(" -> new")
+    public static @NotNull List<MItem> getListMItem() {
         return new ArrayList<>(ima.values());
     }
 

@@ -3,6 +3,7 @@ package net.danh.litesack.API.ItemManager.Vanilla;
 import net.danh.litesack.API.ItemManager.Manager.MItem;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class VItem extends MItem {
     public VItem() {
@@ -22,7 +23,7 @@ public class VItem extends MItem {
     }
 
     @Override
-    public boolean compareItems(ItemStack origin, String item_data) {
+    public boolean compareItems(@NotNull ItemStack origin, String item_data) {
         Material material = Material.getMaterial(item_data);
         ItemStack itemStack = new ItemStack(material != null ? material : Material.STONE);
         return itemStack.getType().equals(origin.getType());

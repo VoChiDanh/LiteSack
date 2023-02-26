@@ -4,6 +4,7 @@ import io.lumine.mythic.lib.api.item.NBTItem;
 import net.danh.litesack.API.ItemManager.Manager.MItem;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class MMOItems extends MItem {
     public MMOItems() {
@@ -11,7 +12,7 @@ public class MMOItems extends MItem {
     }
 
     @Override
-    public boolean checkMaterial(String item_data) {
+    public boolean checkMaterial(@NotNull String item_data) {
         String[] mmoitems = item_data.split("-");
         String type = mmoitems[0];
         String id = mmoitems[1];
@@ -19,7 +20,7 @@ public class MMOItems extends MItem {
     }
 
     @Override
-    public ItemStack getItemStack(String item_data, Integer amount) {
+    public ItemStack getItemStack(@NotNull String item_data, Integer amount) {
         String[] mmoitems = item_data.split("-");
         String type = mmoitems[0];
         String id = mmoitems[1];
@@ -28,7 +29,7 @@ public class MMOItems extends MItem {
     }
 
     @Override
-    public boolean compareItems(ItemStack origin, String item_data) {
+    public boolean compareItems(ItemStack origin, @NotNull String item_data) {
         String[] mmoitems = item_data.split("-");
         String type = mmoitems[0];
         String id = mmoitems[1];

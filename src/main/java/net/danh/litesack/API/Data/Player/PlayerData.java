@@ -65,7 +65,11 @@ public class PlayerData {
                 if (IManager.getMItem(fromType).checkMaterial(fromMaterial)) {
                     if (IManager.getMItem(fromType).compareItems(IManager.getMItem(fromType).getItemStack(fromMaterial, 1), fromMaterial)) {
                         added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(itemStack.getAmount() * Number.getInteger(fromAmount))));
+                    } else {
+                        added.set(false);
                     }
+                } else {
+                    added.set(false);
                 }
             } else if (sackType.equals(SackType.ITEM_PICKUP)) {
                 String[] material_drop = from.split(";");
@@ -74,7 +78,11 @@ public class PlayerData {
                 if (IManager.getMItem(materialFrom).checkMaterial(materialType)) {
                     if (IManager.getMItem(materialFrom).compareItems(IManager.getMItem(materialFrom).getItemStack(materialType, 1), materialType)) {
                         added.set(PlayerData.increaseSackData(p, sackID, item, String.valueOf(itemStack.getAmount())));
+                    } else {
+                        added.set(false);
                     }
+                } else {
+                    added.set(false);
                 }
             }
         })));
