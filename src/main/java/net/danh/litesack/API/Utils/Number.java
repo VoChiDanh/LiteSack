@@ -110,7 +110,7 @@ public class Number {
 
     public static String intToSuffixedNumber(int number) {
         if (number < 1000) {
-            return "" + number;
+            return String.valueOf(number);
         } else {
             int exponent = (int) (Math.log(number) / Math.log(1000));
             return String.format("%.2f%c", number / Math.pow(1000, exponent), "kMBTQ".charAt(exponent - 1));
@@ -119,7 +119,7 @@ public class Number {
 
     public static String longToSuffixedNumber(long number) {
         if (number < 1000) {
-            return "" + number;
+            return String.valueOf(number);
         } else {
             int exponent = (int) (Math.log(number) / Math.log(1000));
             return String.format("%.2f%c", number / Math.pow(1000, exponent), "kMBTQ".charAt(exponent - 1));
