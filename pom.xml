@@ -125,7 +125,7 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>net.Indyuce</groupId>
+            <groupId>io.lumine</groupId>
             <artifactId>MythicLib-dist</artifactId>
             <version>1.6-SNAPSHOT</version>
             <scope>provided</scope>
