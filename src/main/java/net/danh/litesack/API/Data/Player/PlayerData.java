@@ -89,16 +89,16 @@ public class PlayerData {
                         String[] items_split = item.split(";");
                         String item_type = items_split[0];
                         String item_data = items_split[1];
-                        Material material = Material.getMaterial(item_data);
                         Integer number = Number.getInteger(amount);
+                        ItemStack itemStack = IManager.getMItem(item_type).getItemStack(item_data, number);
                         if (number <= 0) return;
                         if (IManager.getMItem(item_type).checkMaterial(item_data)) {
                             if (decreaseSackData(p, sackID, item, String.valueOf(number))) {
-                                p.getInventory().addItem(IManager.getMItem(item_type).getItemStack(item_data, number));
+                                p.getInventory().addItem(itemStack);
                                 removed.set(true);
-                                Chat.sendPlayerMessage(p, Objects.requireNonNull(File.getMessage().getString("COMMAND.WITHDRAW.WITHDRAW_SUCCESS")).replace("<name>", material.name()).replace("<amount>", String.valueOf(number)));
+                                Chat.sendPlayerMessage(p, Objects.requireNonNull(File.getMessage().getString("COMMAND.WITHDRAW.WITHDRAW_SUCCESS")).replace("<name>", IManager.getMItem(item_type).getItemName(item_data)).replace("<amount>", String.valueOf(number)));
                             } else {
-                                Chat.sendPlayerMessage(p, Objects.requireNonNull(File.getMessage().getString("COMMAND.WITHDRAW.NOT_ENOUGH")).replace("<name>", material.name()).replace("<withdraw>", String.valueOf(number)).replace("<amount>", String.valueOf(SackData.pSackData.get(p.getName() + "_" + item))));
+                                Chat.sendPlayerMessage(p, Objects.requireNonNull(File.getMessage().getString("COMMAND.WITHDRAW.NOT_ENOUGH")).replace("<name>", IManager.getMItem(item_type).getItemName(item_data)).replace("<withdraw>", String.valueOf(number)).replace("<amount>", String.valueOf(SackData.pSackData.get(p.getName() + "_" + item))));
                             }
                         } else {
                             Chat.sendPlayerMessage(p, Objects.requireNonNull(File.getMessage().getString("COMMAND.WITHDRAW.MATERIAL_IS_NULL")).replace("<name>", item_data));

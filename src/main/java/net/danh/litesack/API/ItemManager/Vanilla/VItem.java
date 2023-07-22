@@ -28,4 +28,9 @@ public class VItem extends MItem {
         ItemStack itemStack = new ItemStack(material != null ? material : Material.STONE);
         return itemStack.getType().equals(origin.getType());
     }
+
+    @Override
+    public String getItemName(String item_data) {
+        return getItemStack(item_data, 1).toString();
+    }
 }

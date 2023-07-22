@@ -2,6 +2,7 @@ package net.danh.litesack.API.ItemManager.MMOItems;
 
 import io.lumine.mythic.lib.api.item.NBTItem;
 import net.danh.litesack.API.ItemManager.Manager.MItem;
+import net.danh.litesack.API.Resources.Chat;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -35,5 +36,17 @@ public class MMOItems extends MItem {
         String id = mmoitems[1];
         NBTItem nbtItem = NBTItem.get(origin);
         return nbtItem != null && nbtItem.getType().equalsIgnoreCase(type) && nbtItem.getString("MMOITEMS_ITEM_ID").equalsIgnoreCase(id);
+    }
+
+    @Override
+    public String getItemName(String item_data) {
+        String[] mmoitems = item_data.split("-");
+        String type = mmoitems[0];
+        String id = mmoitems[1];
+        ItemStack itemStack = net.Indyuce.mmoitems.MMOItems.plugin.getItem(type, id);
+        NBTItem nbtItem = NBTItem.get(itemStack);
+        if (nbtItem.hasTag("MMOITEMS_NAME")) {
+            return Chat.colorize(nbtItem.getString("MMOITEMS_NAME"));
+        } else return nbtItem.getItem().getType().name();
     }
 }

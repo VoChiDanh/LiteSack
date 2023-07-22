@@ -4,7 +4,7 @@ main: net.danh.litesack.LiteSack
 api-version: 1.13
 authors: [ VoChiDanh ]
 libraries:
-  - io.github.rysefoxx.inventory:RyseInventory-Plugin:1.5.7
+  - io.github.rysefoxx.inventory:RyseInventory-Plugin:1.6.5
 softdepend:
   - WorldGuard
   - PlaceholderAPI

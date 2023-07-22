@@ -28,6 +28,11 @@ public abstract class MItem {
         return new ItemStack(material != null ? material : Material.STONE, amount);
     }
 
+    public String getItemName(String item_data) {
+        String name = getItemStack(item_data, 1).toString();
+        return name != null ? name : "null";
+    }
+
     public boolean compareItems(ItemStack origin, String item_data) {
         return false;
     }
